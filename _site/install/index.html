@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>How to install and connect to OwnCloud</title>
+  <title>Install</title>
   <meta name="description" content="Install and configure ownCloud server on public tcp port 8080.  Add a user account. Connect to Owncloud using a desktop or mobile client.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="localhost:4000/.bak">
+  <link rel="canonical" href="localhost:4000/install/">
   <link rel="alternate" type="application/rss+xml" title="How to install and connect to OwnCloud" href="localhost:4000/feed.xml">
 </head>
 
@@ -69,17 +69,86 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <article class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">Install</h1>
+  </header>
 
-  <ul class="post-list">
-    
-  </ul>
+  <div class="post-content">
+    <h2 id="install-and-configure-owncloud">Install and configure ownCloud</h2>
 
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
+<h3 id="introduction">Introduction</h3>
 
-</div>
+<p>Audience: Administrator</p>
+
+<p>Why read this? What will you learn?</p>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<ul>
+  <li>Your favorite linux distribution (centos 7)</li>
+  <li>Your favorite text editor (vim)</li>
+  <li>Docker (docker community edition)
+https://docs.docker.com/install/linux/docker-ce/centos/#set-up-the-repository
+    <h3 id="steps-to-install-owncloud-using-docker">Steps to install ownCloud using Docker</h3>
+  </li>
+  <li>Install Redis server
+    <ul>
+      <li>docker volume create owncloud_redis</li>
+      <li>docker run -d webhippie/redis:latest \<br />
+–name redis \<br />
+-e REDIS_DATABASES=1 \<br />
+–volume owncloud_redis:/var/lib/redis \</li>
+    </ul>
+  </li>
+  <li>Install MariaDB server
+    <ul>
+      <li>docker volume create owncloud_mysql</li>
+      <li>docker volume create owncloud_backup</li>
+      <li>docker run -d \<br />
+–name mariadb \<br />
+-e MARIADB_ROOT_PASSWORD=owncloud \<br />
+-e MARIADB_USERNAME=owncloud \<br />
+-e MARIADB_PASSWORD=owncloud \<br />
+-e MARIADB_DATABASE=owncloud \<br />
+–volume owncloud_mysql:/var/lib/mysql \<br />
+–volume owncloud_backup:/var/lib/backup \<br />
+webhippie/mariadb:latest</li>
+    </ul>
+  </li>
+  <li>Install ownCloud server
+    <ul>
+      <li>export OWNCLOUD_VERSION=10.0<br />
+export OWNCLOUD_DOMAIN=localhost<br />
+export ADMIN_USERNAME=admin<br />
+export ADMIN_PASSWORD=admin<br />
+export HTTP_PORT=80</li>
+      <li>docker volume create owncloud_files</li>
+      <li>docker run -d \<br />
+–name owncloud \<br />
+–link mariadb:db \<br />
+–link redis:redis \<br />
+-p ${HTTP_PORT}:8080 \<br />
+-e OWNCLOUD_DOMAIN=${OWNCLOUD_DOMAIN} \<br />
+-e OWNCLOUD_DB_TYPE=mysql \<br />
+-e OWNCLOUD_DB_NAME=owncloud \<br />
+-e OWNCLOUD_DB_USERNAME=owncloud \<br />
+-e OWNCLOUD_DB_PASSWORD=owncloud \<br />
+-e OWNCLOUD_DB_HOST=db \<br />
+-e OWNCLOUD_ADMIN_USERNAME=${ADMIN_USERNAME} \<br />
+-e OWNCLOUD_ADMIN_PASSWORD=${ADMIN_PASSWORD} \<br />
+-e OWNCLOUD_REDIS_ENABLED=true \<br />
+-e OWNCLOUD_REDIS_HOST=redis \<br />
+–volume owncloud_files:/mnt/data \<br />
+owncloud/server:${OWNCLOUD_VERSION}</li>
+    </ul>
+  </li>
+</ul>
+
+  </div>
+
+</article>
 
       </div>
     </div>
