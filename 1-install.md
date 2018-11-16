@@ -7,27 +7,27 @@ permalink: /install/
 ## Install and configure [ownCloud]
 
 This document is intended for adminstrators who want to quickly install
-and run [ownCloud] on a computer or server. Centos 7 was used during the creation
-of this guide but the docker commands should work on any OS as long as 
-Docker 17 or greater is installed.
+and run [ownCloud] on a computer or server. [Centos] 7 was used during the creation
+of this guide but the [Docker] commands should work on any OS as long as 
+[Docker] version 17 or greater is installed.
 
-ownCloud is a file storage software written in PHP and is intended to be published 
+ownCloud is a file storage software written in [PHP] and is intended to be published 
 through a webserver like Apache or NGINX. [ownCloud] requires a database like
-MySQL, MariaDB, or PostgreSQL to store persistent data. Also [ownCloud] performance is
+MySQL, [MariaDB], or PostgreSQL to store persistent data. Also [ownCloud] performance is
 improved by the use of caching technologies like APCu, Redis or Memcached. 
 
-This document configures [ownCloud] with Apache, MariaDB and Redis and installs
-ownCloud and supporting services using Docker images to quickly get things running
+This document configures [ownCloud] with Apache, [MariaDB] and Redis and installs
+ownCloud and supporting services using [Docker] images to quickly get things running
 without manually satisfying software installation and configuration prerequisites. 
 
 ### Prerequisites
 
-* A Computer running Centos 7 with a working internet connection
-* Docker CE version 17 or greater
-  * Using the command "yum install docker" on Centos 7 installed version 13. That is
-    too old to support some of the syntax we use in the following docker commands. I used 
-    [this guide from Docker docs](https://docs.docker.com/install/linux/docker-ce/centos/#set-up-the-repository)
-    to configure the docker repository for yum and install version 17 with "yum install docker-ce"
+* A Computer running [Centos] 7 with a working internet connection
+* [Docker] CE version 17 or greater
+  * Using the command "yum install Docker" on [Centos] 7 installed version 13. That is
+    too old to support some of the syntax we use in the following [Docker] commands. I used 
+    [this guide from Docker docs](https://docs.Docker.com/install/linux/Docker-ce/centos/#set-up-the-repository)
+    to configure the [Docker] repository for yum and install version 17 with "yum install Docker-ce"
 
 ### Administrative Decisions
 Define a username we will use to define permissions for various services
@@ -84,7 +84,7 @@ host's public IP.
     --volume ${REDIS_VOL}:${REDIS_MOUNT} \
   ${REDIS_IMG}
   ```
-* Install MariaDB server
+* Install [MariaDB] server
   ```
   docker volume create ${MARIADB_DB_VOL}
   docker volume create ${MARIADB_BAK_VOL}
@@ -126,3 +126,8 @@ Your [ownCloud] site should now be available by using a browser to connect to th
 host's public IP.
 
 [ownCloud]: https://owncloud.org/
+[Centos]: https://www.centos.org/
+[Docker]: https://www.Docker.com/
+[PHP]: https://www.php.net/
+[Redis]: https://redislabs.com/
+[MariaDB]: https://mariadb.com/

@@ -79,29 +79,29 @@
     <h2 id="install-and-configure-owncloud">Install and configure <a href="https://owncloud.org/">ownCloud</a></h2>
 
 <p>This document is intended for adminstrators who want to quickly install
-and run <a href="https://owncloud.org/">ownCloud</a> on a computer or server. Centos 7 was used during the creation
-of this guide but the docker commands should work on any OS as long as 
-Docker 17 or greater is installed.</p>
+and run <a href="https://owncloud.org/">ownCloud</a> on a computer or server. <a href="https://www.centos.org/">Centos</a> 7 was used during the creation
+of this guide but the <a href="https://www.Docker.com/">Docker</a> commands should work on any OS as long as 
+<a href="https://www.Docker.com/">Docker</a> version 17 or greater is installed.</p>
 
-<p>ownCloud is a file storage software written in PHP and is intended to be published 
+<p>ownCloud is a file storage software written in <a href="https://www.php.net/">PHP</a> and is intended to be published 
 through a webserver like Apache or NGINX. <a href="https://owncloud.org/">ownCloud</a> requires a database like
-MySQL, MariaDB, or PostgreSQL to store persistent data. Also <a href="https://owncloud.org/">ownCloud</a> performance is
+MySQL, <a href="https://mariadb.com/">MariaDB</a>, or PostgreSQL to store persistent data. Also <a href="https://owncloud.org/">ownCloud</a> performance is
 improved by the use of caching technologies like APCu, Redis or Memcached.</p>
 
-<p>This document configures <a href="https://owncloud.org/">ownCloud</a> with Apache, MariaDB and Redis and installs
-ownCloud and supporting services using Docker images to quickly get things running
+<p>This document configures <a href="https://owncloud.org/">ownCloud</a> with Apache, <a href="https://mariadb.com/">MariaDB</a> and Redis and installs
+ownCloud and supporting services using <a href="https://www.Docker.com/">Docker</a> images to quickly get things running
 without manually satisfying software installation and configuration prerequisites.</p>
 
 <h3 id="prerequisites">Prerequisites</h3>
 
 <ul>
-  <li>A Computer running Centos 7 with a working internet connection</li>
-  <li>Docker CE version 17 or greater
+  <li>A Computer running <a href="https://www.centos.org/">Centos</a> 7 with a working internet connection</li>
+  <li><a href="https://www.Docker.com/">Docker</a> CE version 17 or greater
     <ul>
-      <li>Using the command “yum install docker” on Centos 7 installed version 13. That is
-too old to support some of the syntax we use in the following docker commands. I used 
-<a href="https://docs.docker.com/install/linux/docker-ce/centos/#set-up-the-repository">this guide from Docker docs</a>
-to configure the docker repository for yum and install version 17 with “yum install docker-ce”</li>
+      <li>Using the command “yum install Docker” on <a href="https://www.centos.org/">Centos</a> 7 installed version 13. That is
+too old to support some of the syntax we use in the following <a href="https://www.Docker.com/">Docker</a> commands. I used 
+<a href="https://docs.Docker.com/install/linux/Docker-ce/centos/#set-up-the-repository">this guide from Docker docs</a>
+to configure the <a href="https://www.Docker.com/">Docker</a> repository for yum and install version 17 with “yum install Docker-ce”</li>
     </ul>
   </li>
 </ul>
@@ -158,7 +158,7 @@ docker run -d \
 ${REDIS_IMG}
 </code></pre></div>    </div>
   </li>
-  <li>Install MariaDB server
+  <li>Install <a href="https://mariadb.com/">MariaDB</a> server
     <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker volume create ${MARIADB_DB_VOL}
 docker volume create ${MARIADB_BAK_VOL}
 docker run -d \

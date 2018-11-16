@@ -78,16 +78,16 @@
   <div class="post-content">
     <h2 id="expose-owncloud-publicly-on-tcp8080">Expose ownCloud publicly on TCP/8080</h2>
 
-<p>On the installation page of this guide, we set the external port Docker
+<p>On the <a href="/install/">installation page</a> of this guide, we set the external port Docker
 will expose ownCloud with the following definition.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export HTTP_PORT=80
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export PUBLIC_HTTP_PORT=80
 </code></pre></div></div>
 
 <p>The port assignment is then set when we run the ownCloud Docker image with the following
 parameter.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-p ${HTTP_PORT}:8080
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-p ${PUBLIC_HTTP_PORT}:8080
 </code></pre></div></div>
 
 
