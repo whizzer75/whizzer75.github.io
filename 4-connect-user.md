@@ -8,9 +8,9 @@ permalink: /user/
 
 ### Introduction
 
-Connecting to your ownCloud service is easy using a web browser which is what
-will be covered in this document. Also, ownCloud makes available client 
-software for Windows, Mac, Android and iOS that you can learn more about 
+This guide will cover connecting to your ownCloud service using a web 
+browser. Also, ownCloud makes available client software for Windows, 
+Mac, Android and iOS that you can learn more about 
 [here](https://owncloud.org/download/).
 
 ### Connect with Browser
@@ -24,3 +24,5 @@ To create a new folder on ownCloud to oraginze files or to upload a new file
 to ownCloud, click the plus symbol near the top of the file list dialogue.
 
 ![Add a new file](/images/plus_file.png)
+
+To download a file, click the file name in the file list dialogue.
