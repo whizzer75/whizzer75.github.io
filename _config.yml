@@ -6,7 +6,7 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: How to install and connect to OwnCloud
+title: How to install and connect to ownCloud
 email: lloyd.peterson@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   Install and configure ownCloud server on public tcp port 8080.  Add a user account. Connect to Owncloud using a desktop or mobile client.

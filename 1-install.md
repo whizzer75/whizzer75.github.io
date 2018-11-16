@@ -7,18 +7,21 @@ permalink: /install/
 ## Install and configure [ownCloud]
 
 This document is intended for adminstrators who want to quickly install
-and run [ownCloud] on a computer or server. [Centos] 7 was used during the creation
-of this guide but the [Docker] commands should work on any OS as long as 
-[Docker] version 17 or greater is installed.
+and run [ownCloud] on a computer or server. [ownCloud] is a file storage
+software written in [PHP]. It is intended to be published through a webserver 
+and uses a database for persistent storage. ownCloud can aldo benefit from 
+memory caching. 
 
-[ownCloud] is a file storage software written in [PHP] and is intended to be published 
-through a webserver like [Apache] or NGINX. [ownCloud] requires a database like
-MySQL, [MariaDB], or PostgreSQL to store persistent data. Also [ownCloud] performance is
-improved by the use of caching technologies like APCu, [Redis] or Memcached. 
+ownCloud can be be run with different combinations of software to achieve these
+objectives, but this document will show how to get running using [Apache], 
+[MariaDB] and [Redis].
 
-This document configures [ownCloud] with Apache, [MariaDB] and [Redis] and installs
-[ownCloud] and supporting services using [Docker] images to quickly get things running
-without manually satisfying software installation and configuration prerequisites. 
+[Centos] 7 was used during the creation of this guide but the [Docker] commands 
+should work on any OS as long as [Docker] version 17 or greater is installed. 
+Using [Docker] to install [ownCloud] and supporting services will allow us to 
+quickly get things running without manually satisfying software installation 
+and configuration prerequisites.
+
 
 ### Prerequisites
 
@@ -68,10 +71,11 @@ export OWNCLOUD_VOL=owncloud_files
 export OWNCLOUD_MNT=/mnt/data
 ```
 
-### Connect to your new installation
+### Store randomly generated passwords for later reference
 
-Your [ownCloud] site should now be available by using a browser to connect to the
-host's public IP.
+```
+env | grep PASSWORD | tee password_file.txt
+```
 
 ### Steps to install [ownCloud] using Docker
 

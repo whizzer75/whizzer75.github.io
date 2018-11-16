@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>How to install and connect to OwnCloud</title>
+    <title>How to install and connect to ownCloud</title>
     <description>Install and configure ownCloud server on public tcp port 8080.  Add a user account. Connect to Owncloud using a desktop or mobile client.
 </description>
     <link>localhost:4000/</link>
     <atom:link href="localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 16 Nov 2018 12:44:27 -0500</pubDate>
-    <lastBuildDate>Fri, 16 Nov 2018 12:44:27 -0500</lastBuildDate>
+    <pubDate>Fri, 16 Nov 2018 13:05:25 -0500</pubDate>
+    <lastBuildDate>Fri, 16 Nov 2018 13:05:25 -0500</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
   </channel>

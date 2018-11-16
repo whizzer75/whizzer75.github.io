@@ -12,7 +12,7 @@
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="localhost:4000/install/">
-  <link rel="alternate" type="application/rss+xml" title="How to install and connect to OwnCloud" href="localhost:4000/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="How to install and connect to ownCloud" href="localhost:4000/feed.xml">
 </head>
 
 
@@ -22,7 +22,7 @@
 
   <div class="wrapper">
 
-    <a class="site-title" href="/">How to install and connect to OwnCloud</a>
+    <a class="site-title" href="/">How to install and connect to ownCloud</a>
 
     <nav class="site-nav">
       <a href="#" class="menu-icon">
@@ -79,18 +79,20 @@
     <h2 id="install-and-configure-owncloud">Install and configure <a href="https://owncloud.org/">ownCloud</a></h2>
 
 <p>This document is intended for adminstrators who want to quickly install
-and run <a href="https://owncloud.org/">ownCloud</a> on a computer or server. <a href="https://www.centos.org/">Centos</a> 7 was used during the creation
-of this guide but the <a href="https://www.Docker.com/">Docker</a> commands should work on any OS as long as 
-<a href="https://www.Docker.com/">Docker</a> version 17 or greater is installed.</p>
+and run <a href="https://owncloud.org/">ownCloud</a> on a computer or server. <a href="https://owncloud.org/">ownCloud</a> is a file storage
+software written in <a href="https://www.php.net/">PHP</a>. It is intended to be published through a webserver 
+and uses a database for persistent storage. ownCloud can aldo benefit from 
+memory caching.</p>
 
-<p><a href="https://owncloud.org/">ownCloud</a> is a file storage software written in <a href="https://www.php.net/">PHP</a> and is intended to be published 
-through a webserver like <a href="https://httpd.apache.org/">Apache</a> or NGINX. <a href="https://owncloud.org/">ownCloud</a> requires a database like
-MySQL, <a href="https://mariadb.com/">MariaDB</a>, or PostgreSQL to store persistent data. Also <a href="https://owncloud.org/">ownCloud</a> performance is
-improved by the use of caching technologies like APCu, <a href="https://redislabs.com/">Redis</a> or Memcached.</p>
+<p>ownCloud can be be run with different combinations of software to achieve these
+objectives, but this document will show how to get running using <a href="https://httpd.apache.org/">Apache</a>, 
+<a href="https://mariadb.com/">MariaDB</a> and <a href="https://redislabs.com/">Redis</a>.</p>
 
-<p>This document configures <a href="https://owncloud.org/">ownCloud</a> with Apache, <a href="https://mariadb.com/">MariaDB</a> and <a href="https://redislabs.com/">Redis</a> and installs
-<a href="https://owncloud.org/">ownCloud</a> and supporting services using <a href="https://www.Docker.com/">Docker</a> images to quickly get things running
-without manually satisfying software installation and configuration prerequisites.</p>
+<p><a href="https://www.centos.org/">Centos</a> 7 was used during the creation of this guide but the <a href="https://www.Docker.com/">Docker</a> commands 
+should work on any OS as long as <a href="https://www.Docker.com/">Docker</a> version 17 or greater is installed. 
+Using <a href="https://www.Docker.com/">Docker</a> to install <a href="https://owncloud.org/">ownCloud</a> and supporting services will allow us to 
+quickly get things running without manually satisfying software installation 
+and configuration prerequisites.</p>
 
 <h3 id="prerequisites">Prerequisites</h3>
 
@@ -141,10 +143,10 @@ export OWNCLOUD_VOL=owncloud_files
 export OWNCLOUD_MNT=/mnt/data
 </code></pre></div></div>
 
-<h3 id="connect-to-your-new-installation">Connect to your new installation</h3>
+<h3 id="store-randomly-generated-passwords-for-later-reference">Store randomly generated passwords for later reference</h3>
 
-<p>Your <a href="https://owncloud.org/">ownCloud</a> site should now be available by using a browser to connect to the
-host’s public IP.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>env | grep PASSWORD | tee password_file.txt
+</code></pre></div></div>
 
 <h3 id="steps-to-install-owncloud-using-docker">Steps to install <a href="https://owncloud.org/">ownCloud</a> using Docker</h3>
 
@@ -195,7 +197,7 @@ docker run -d \
   </li>
 </ul>
 
-<h3 id="connect-to-your-new-installation-1">Connect to your new installation</h3>
+<h3 id="connect-to-your-new-installation">Connect to your new installation</h3>
 
 <p>Your <a href="https://owncloud.org/">ownCloud</a> site should now be available by using a browser to connect to the
 host’s public IP. You should be able to login with ADMIN_USERNAME and ADMIN_PASSWORD
@@ -215,12 +217,12 @@ as they were assigned above.</p>
 
   <div class="wrapper">
 
-    <h2 class="footer-heading">How to install and connect to OwnCloud</h2>
+    <h2 class="footer-heading">How to install and connect to ownCloud</h2>
 
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li>How to install and connect to OwnCloud</li>
+          <li>How to install and connect to ownCloud</li>
           <li><a href="mailto:lloyd.peterson@gmail.com">lloyd.peterson@gmail.com</a></li>
         </ul>
       </div>

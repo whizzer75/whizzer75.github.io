@@ -6,13 +6,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>How to install and connect to OwnCloud</title>
+  <title>How to install and connect to ownCloud</title>
   <meta name="description" content="Install and configure ownCloud server on public tcp port 8080.  Add a user account. Connect to Owncloud using a desktop or mobile client.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="localhost:4000/.bak">
-  <link rel="alternate" type="application/rss+xml" title="How to install and connect to OwnCloud" href="localhost:4000/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="How to install and connect to ownCloud" href="localhost:4000/feed.xml">
 </head>
 
 
@@ -22,7 +22,7 @@
 
   <div class="wrapper">
 
-    <a class="site-title" href="/">How to install and connect to OwnCloud</a>
+    <a class="site-title" href="/">How to install and connect to ownCloud</a>
 
     <nav class="site-nav">
       <a href="#" class="menu-icon">
@@ -88,12 +88,12 @@
 
   <div class="wrapper">
 
-    <h2 class="footer-heading">How to install and connect to OwnCloud</h2>
+    <h2 class="footer-heading">How to install and connect to ownCloud</h2>
 
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li>How to install and connect to OwnCloud</li>
+          <li>How to install and connect to ownCloud</li>
           <li><a href="mailto:lloyd.peterson@gmail.com">lloyd.peterson@gmail.com</a></li>
         </ul>
       </div>
