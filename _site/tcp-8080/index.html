@@ -78,25 +78,18 @@
   <div class="post-content">
     <h2 id="expose-owncloud-publicly-on-tcp8080">Expose ownCloud publicly on TCP/8080</h2>
 
-<h3 id="introduction">Introduction</h3>
+<p>On the installation page of this guide, we set the external port Docker
+will expose ownCloud with the following definition.</p>
 
-<p>Markdown is a text-to-HTML conversion tool for web writers. Markdown
-allows you to write using an easy-to-read, easy-to-write plain text
-format, then convert it to structurally valid XHTML (or HTML).</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export HTTP_PORT=80
+</code></pre></div></div>
 
-<p>Thus, “Markdown” is two things: (1) a plain text formatting syntax;
-and (2) a software tool, written in Perl, that converts the plain text
-formatting to HTML. See the <a href="/projects/markdown/syntax">Syntax</a> page for details pertaining to
-Markdown’s formatting syntax. You can try it out, right now, using the
-online <a href="/projects/markdown/dingus">Dingus</a>.</p>
+<p>The port assignment is then set when we run the ownCloud Docker image with the following
+parameter.</p>
 
-<p>The overriding design goal for Markdown’s formatting syntax is to make
-it as readable as possible. The idea is that a Markdown-formatted
-document should be publishable as-is, as plain text, without looking
-like it’s been marked up with tags or formatting instructions. While
-Markdown’s syntax has been influenced by several existing text-to-HTML
-filters, the single biggest source of inspiration for Markdown’s
-syntax is the format of plain text email.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-p ${HTTP_PORT}:8080
+</code></pre></div></div>
+
 
   </div>
 

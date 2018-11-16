@@ -8,23 +8,10 @@ permalink: /add-user/
 
 ### Introduction
 
-Markdown is a text-to-HTML conversion tool for web writers. Markdown
-allows you to write using an easy-to-read, easy-to-write plain text
-format, then convert it to structurally valid XHTML (or HTML).
-
-Thus, "Markdown" is two things: (1) a plain text formatting syntax;
-and (2) a software tool, written in Perl, that converts the plain text
-formatting to HTML. See the [Syntax][] page for details pertaining to
-Markdown's formatting syntax. You can try it out, right now, using the
-online [Dingus][].
-
-  [syntax]: /projects/markdown/syntax
-  [dingus]: /projects/markdown/dingus
-
-The overriding design goal for Markdown's formatting syntax is to make
-it as readable as possible. The idea is that a Markdown-formatted
-document should be publishable as-is, as plain text, without looking
-like it's been marked up with tags or formatting instructions. While
-Markdown's syntax has been influenced by several existing text-to-HTML
-filters, the single biggest source of inspiration for Markdown's
-syntax is the format of plain text email.
+Adding a user to ownCloud is simple. Log in to ownCloud using the
+admin credentials you created during installation. After logging in,
+you will find your username, "admin" in the top right corner of the
+browser. Click the name to expose a drop down list and select "Users".
+At the top of the user management screen enter the name of the new
+user you wish to create and their email address. Optionally drop down
+the "Groups" menu and choose an existing group or create a new one.

@@ -4,4 +4,14 @@ layout: default
 
 <div class="home">
 
+  <h1 class="page-heading">Contents:</h1>
+
+  <ul class="post-list">
+    {% for page in site.pages %}
+      <li>
+          <a href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+
 </div>
