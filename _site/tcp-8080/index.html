@@ -101,6 +101,49 @@ desired port number.</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://54.39.22.182:8080
 </code></pre></div></div>
 
+<h2 id="how-to-change-if-you-already-configured-port-80">How to change if you already configured port 80</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps
+</code></pre></div></div>
+
+<p>Output:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CONTAINER ID        IMAGE                      COMMAND                  CREATED             STATUS              PORTS                  NAMES
+67e1033dece0        owncloud/server:10.0       "/usr/bin/entrypoint…"   3 hours ago         Up 3 hours          0.0.0.0:80-&gt;8080/tcp   owncloud
+79bfaf54c7bf        webhippie/mariadb:latest   "/usr/bin/entrypoint…"   3 hours ago         Up 3 hours          3306/tcp               mariadb
+c1e39016ec5c        webhippie/redis:latest     "/usr/bin/entrypoint…"   3 hours ago         Up 3 hours          6379/tcp               redis
+</code></pre></div></div>
+
+<p>Find the container ID for the owncloud container and stop it</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker stop 67e1033dece0
+</code></pre></div></div>
+<p>Remove the container</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker rm 67e1033dece0
+</code></pre></div></div>
+<p>Change the environment variable defining the public port and run the container again</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export PUBLIC_HTTP_PORT=8080
+docker run -d \
+  --name owncloud \
+  --link mariadb:db \
+  --link redis:redis \
+  -p ${PUBLIC_HTTP_PORT}:8080 \
+  -e OWNCLOUD_DOMAIN=${OWNCLOUD_DOMAIN} \
+  -e OWNCLOUD_DB_TYPE=mysql \
+  -e OWNCLOUD_DB_NAME=${MARIADB_DB} \
+  -e OWNCLOUD_DB_USERNAME=${MARIADB_USER} \
+  -e OWNCLOUD_DB_PASSWORD=${MARIADB_PASSWORD} \
+  -e OWNCLOUD_DB_HOST=db \
+  -e OWNCLOUD_ADMIN_USERNAME=${ADMIN_USERNAME} \
+  -e OWNCLOUD_ADMIN_PASSWORD=${ADMIN_PASSWORD} \
+  -e OWNCLOUD_REDIS_ENABLED=true \
+  -e OWNCLOUD_REDIS_HOST=redis \
+  --volume ${OWNCLOUD_VOL}:${OWNCLOUD_MNT} \
+  ${OWNCLOUD_IMG}:${OWNCLOUD_VERSION}
+</code></pre></div></div>
+
+<h2 id="log-into-the-web-gui-using-port-8080">Log into the web GUI using port 8080</h2>
+
+<p><img src="/images/login8080.png" alt="login8080" /></p>
+
   </div>
 
 </article>

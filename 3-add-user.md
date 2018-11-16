@@ -23,5 +23,11 @@ existing group or create a new one. When you are finished, click
 
 ![Create a new user][create_user]
 
+After the user creation completes, optionally select the pencil icon
+next to the new user's password in the table, and change it.
+
+![Change password][chg_pass]
+
 [dropdown]: /images/dropdown.png
 [create_user]: /images/create_user.png
+[chg_pass]: /images/chg_pass.png
