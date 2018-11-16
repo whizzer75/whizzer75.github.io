@@ -9,7 +9,7 @@ permalink: /install/
 This document is intended for adminstrators who want to quickly install
 and run [ownCloud] on a computer or server. [ownCloud] is a file storage
 software written in [PHP]. It is intended to be published through a webserver 
-and uses a database for persistent storage. [ownCloud] can aldo benefit from 
+and uses a database for persistent storage. [ownCloud] can also benefit from 
 memory caching. 
 
 [ownCloud] can be be run with different combinations of software to achieve these
