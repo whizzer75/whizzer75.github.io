@@ -76,22 +76,31 @@
   </header>
 
   <div class="post-content">
-    <h2 id="expose-owncloud-publicly-on-tcp8080">Expose ownCloud publicly on TCP/8080</h2>
+    <h2 id="expose-owncloud-publicly-on-tcp8080">Expose <a href="https://owncloud.org/">ownCloud</a> publicly on TCP/8080</h2>
 
-<p>On the <a href="/install/">installation page</a> of this guide, we set the external port Docker
-will expose ownCloud with the following definition.</p>
+<p>On the <a href="/install/">installation page</a> of this guide, we set the external port
+<a href="https://owncloud.org/">ownCloud</a> will expose with the following definition.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export PUBLIC_HTTP_PORT=80
 </code></pre></div></div>
 
-<p>The port assignment is then set when we run the ownCloud Docker image with the following
-parameter.</p>
+<p>The port assignment is then set for the <a href="https://www.Docker.com/">Docker</a> image when we run the <a href="https://owncloud.org/">ownCloud</a>
+image with the -p parameter. The -p parameter for “docker run” configures
+external networking by using iptables to port forward between the external and
+internal ports. The syntax is as follows.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-p ${PUBLIC_HTTP_PORT}:8080
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-p $EXTERNAL_PORT:$INTERNAL_CONTAINER_PORT
 </code></pre></div></div>
 
-<p>If you prefer a different port, 8080 for example, then change the value assigned to the
-desired port number.</p>
+<p>The default internal container port for the owncloud image we are using is 8080,
+so if we wanted to publish ownCloud on port 8080 externally the -p parameter should
+look as follows when we run the container.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-p 8080:8080
+</code></pre></div></div>
+
+<p>Change the value of the environment variable to the desired port number before
+executing the “docker run” command to start <a href="https://owncloud.org/">ownCloud</a>.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export PUBLIC_HTTP_PORT=8080
 </code></pre></div></div>
@@ -113,7 +122,7 @@ desired port number.</p>
 c1e39016ec5c        webhippie/redis:latest     "/usr/bin/entrypoint…"   3 hours ago         Up 3 hours          6379/tcp               redis
 </code></pre></div></div>
 
-<p>Find the container ID for the owncloud container and stop it</p>
+<p>Find the container ID for the <a href="https://owncloud.org/">ownCloud</a> container and stop it</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker stop 67e1033dece0
 </code></pre></div></div>
 <p>Remove the container</p>
@@ -143,6 +152,7 @@ docker run -d \
 <h2 id="log-into-the-web-gui-using-port-8080">Log into the web GUI using port 8080</h2>
 
 <p><img src="/images/login8080.png" alt="login8080" /></p>
+
 
   </div>
 

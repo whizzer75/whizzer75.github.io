@@ -9,10 +9,10 @@ permalink: /install/
 This document is intended for adminstrators who want to quickly install
 and run [ownCloud] on a computer or server. [ownCloud] is a file storage
 software written in [PHP]. It is intended to be published through a webserver 
-and uses a database for persistent storage. ownCloud can aldo benefit from 
+and uses a database for persistent storage. [ownCloud] can aldo benefit from 
 memory caching. 
 
-ownCloud can be be run with different combinations of software to achieve these
+[ownCloud] can be be run with different combinations of software to achieve these
 objectives, but this document will show how to get running using [Apache], 
 [MariaDB] and [Redis].
 
@@ -29,8 +29,8 @@ and configuration prerequisites.
 * [Docker] CE version 17 or greater
   * Using the command "yum install Docker" on [Centos] 7 installed version 13. That is
     too old to support some of the syntax we use in the following [Docker] commands. I used 
-    [this guide from Docker docs](https://docs.Docker.com/install/linux/Docker-ce/centos/#set-up-the-repository)
-    to configure the [Docker] repository for yum and install version 17 with "yum install Docker-ce"
+    [this guide from Docker docs](https://docs.docker.com/install/linux/docker-ce/centos/#set-up-the-repository)
+    to configure the [Docker] repository for yum and install version 17 with "yum install docker-ce"
 
 ### Customization
 Define a username we will use to define permissions for various services
@@ -38,7 +38,7 @@ Define a username we will use to define permissions for various services
 export OC_USER=owncloud
 ```
 
-Redis Configuration
+[Redis] Configuration
 ```
 export REDIS_IMG=webhippie/redis:latest
 export REDIS_VOL=owncloud_redis
@@ -46,7 +46,7 @@ export REDIS_MOUNT=/var/lib/redis
 export REDIS_DBS=1
 ```
 
-MariaDB Configuration
+[MariaDB] Configuration
 ```
 export MARIADB_IMG=webhippie/mariadb:latest
 export MARIADB_DB=${OC_USER}
@@ -64,7 +64,7 @@ export MARIADB_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold 
 export OWNCLOUD_IMG=owncloud/server
 export OWNCLOUD_VERSION=10.0
 export OWNCLOUD_DOMAIN=localhost
-export ADMIN_USERNAME=${OC_USER} # This will be the default admin username for the new [ownCloud] install
+export ADMIN_USERNAME=${OC_USER}
 export ADMIN_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 export PUBLIC_HTTP_PORT=80
 export OWNCLOUD_VOL=owncloud_files
@@ -72,12 +72,20 @@ export OWNCLOUD_MNT=/mnt/data
 ```
 
 ### Store randomly generated passwords for later reference
+We generated 3 random passwords in the previous steps using the following shell command
+```
+$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
+```
+However, you may set these to any password you like if you prefer to personalize them. When
+the environment variables hold the correct passwords store them someplace secure and permanent for
+future use.
 
 ```
 env | grep PASSWORD | tee password_file.txt
+chmod 400 password_file.txt
 ```
 
-### Steps to install [ownCloud] using Docker
+### Steps to install [ownCloud] using [Docker]
 
 * Install [Redis] server
   ```
@@ -127,7 +135,7 @@ env | grep PASSWORD | tee password_file.txt
 ### Connect to your new installation
 
 Your [ownCloud] site should now be available by using a browser to connect to the
-host's public IP. You should be able to login with ADMIN_USERNAME and ADMIN_PASSWORD
+host's public IP. You can login with ADMIN_USERNAME and ADMIN_PASSWORD
 as they were assigned above.
 
 ![Login page](/images/login.png)

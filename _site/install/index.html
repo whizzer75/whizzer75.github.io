@@ -81,10 +81,10 @@
 <p>This document is intended for adminstrators who want to quickly install
 and run <a href="https://owncloud.org/">ownCloud</a> on a computer or server. <a href="https://owncloud.org/">ownCloud</a> is a file storage
 software written in <a href="https://www.php.net/">PHP</a>. It is intended to be published through a webserver 
-and uses a database for persistent storage. ownCloud can aldo benefit from 
+and uses a database for persistent storage. <a href="https://owncloud.org/">ownCloud</a> can aldo benefit from 
 memory caching.</p>
 
-<p>ownCloud can be be run with different combinations of software to achieve these
+<p><a href="https://owncloud.org/">ownCloud</a> can be be run with different combinations of software to achieve these
 objectives, but this document will show how to get running using <a href="https://httpd.apache.org/">Apache</a>, 
 <a href="https://mariadb.com/">MariaDB</a> and <a href="https://redislabs.com/">Redis</a>.</p>
 
@@ -102,8 +102,8 @@ and configuration prerequisites.</p>
     <ul>
       <li>Using the command “yum install Docker” on <a href="https://www.centos.org/">Centos</a> 7 installed version 13. That is
 too old to support some of the syntax we use in the following <a href="https://www.Docker.com/">Docker</a> commands. I used 
-<a href="https://docs.Docker.com/install/linux/Docker-ce/centos/#set-up-the-repository">this guide from Docker docs</a>
-to configure the <a href="https://www.Docker.com/">Docker</a> repository for yum and install version 17 with “yum install Docker-ce”</li>
+<a href="https://docs.docker.com/install/linux/docker-ce/centos/#set-up-the-repository">this guide from Docker docs</a>
+to configure the <a href="https://www.Docker.com/">Docker</a> repository for yum and install version 17 with “yum install docker-ce”</li>
     </ul>
   </li>
 </ul>
@@ -113,14 +113,14 @@ to configure the <a href="https://www.Docker.com/">Docker</a> repository for yum
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export OC_USER=owncloud
 </code></pre></div></div>
 
-<p>Redis Configuration</p>
+<p><a href="https://redislabs.com/">Redis</a> Configuration</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export REDIS_IMG=webhippie/redis:latest
 export REDIS_VOL=owncloud_redis
 export REDIS_MOUNT=/var/lib/redis
 export REDIS_DBS=1
 </code></pre></div></div>
 
-<p>MariaDB Configuration</p>
+<p><a href="https://mariadb.com/">MariaDB</a> Configuration</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export MARIADB_IMG=webhippie/mariadb:latest
 export MARIADB_DB=${OC_USER}
 export MARIADB_DB_VOL=owncloud_mysql
@@ -136,7 +136,7 @@ export MARIADB_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export OWNCLOUD_IMG=owncloud/server
 export OWNCLOUD_VERSION=10.0
 export OWNCLOUD_DOMAIN=localhost
-export ADMIN_USERNAME=${OC_USER} # This will be the default admin username for the new [ownCloud] install
+export ADMIN_USERNAME=${OC_USER}
 export ADMIN_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 export PUBLIC_HTTP_PORT=80
 export OWNCLOUD_VOL=owncloud_files
@@ -144,11 +144,18 @@ export OWNCLOUD_MNT=/mnt/data
 </code></pre></div></div>
 
 <h3 id="store-randomly-generated-passwords-for-later-reference">Store randomly generated passwords for later reference</h3>
+<p>We generated 3 random passwords in the previous steps using the following shell command</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
+</code></pre></div></div>
+<p>However, you may set these to any password you like if you prefer to personalize them. When
+the environment variables hold the correct passwords store them someplace secure and permanent for
+future use.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>env | grep PASSWORD | tee password_file.txt
+chmod 400 password_file.txt
 </code></pre></div></div>
 
-<h3 id="steps-to-install-owncloud-using-docker">Steps to install <a href="https://owncloud.org/">ownCloud</a> using Docker</h3>
+<h3 id="steps-to-install-owncloud-using-docker">Steps to install <a href="https://owncloud.org/">ownCloud</a> using <a href="https://www.Docker.com/">Docker</a></h3>
 
 <ul>
   <li>Install <a href="https://redislabs.com/">Redis</a> server
@@ -200,7 +207,7 @@ docker run -d \
 <h3 id="connect-to-your-new-installation">Connect to your new installation</h3>
 
 <p>Your <a href="https://owncloud.org/">ownCloud</a> site should now be available by using a browser to connect to the
-host’s public IP. You should be able to login with ADMIN_USERNAME and ADMIN_PASSWORD
+host’s public IP. You can login with ADMIN_USERNAME and ADMIN_PASSWORD
 as they were assigned above.</p>
 
 <p><img src="/images/login.png" alt="Login page" /></p>
