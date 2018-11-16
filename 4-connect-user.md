@@ -19,3 +19,8 @@ Open your browser and visit http://my-public-ip. Enter the ownCloud credentials
 supplied by your ownCloud administrator and hit enter.
 
 ![Login page](/images/login_new.png)
+
+To create a new folder on ownCloud to oraginze files or to upload a new file
+to ownCloud, click the plus symbol near the top of the file list dialogue.
+
+![Add a new file](/images/plus_file.png)
