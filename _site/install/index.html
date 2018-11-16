@@ -83,13 +83,13 @@ and run <a href="https://owncloud.org/">ownCloud</a> on a computer or server. <a
 of this guide but the <a href="https://www.Docker.com/">Docker</a> commands should work on any OS as long as 
 <a href="https://www.Docker.com/">Docker</a> version 17 or greater is installed.</p>
 
-<p>ownCloud is a file storage software written in <a href="https://www.php.net/">PHP</a> and is intended to be published 
-through a webserver like Apache or NGINX. <a href="https://owncloud.org/">ownCloud</a> requires a database like
+<p><a href="https://owncloud.org/">ownCloud</a> is a file storage software written in <a href="https://www.php.net/">PHP</a> and is intended to be published 
+through a webserver like <a href="https://httpd.apache.org/">Apache</a> or NGINX. <a href="https://owncloud.org/">ownCloud</a> requires a database like
 MySQL, <a href="https://mariadb.com/">MariaDB</a>, or PostgreSQL to store persistent data. Also <a href="https://owncloud.org/">ownCloud</a> performance is
-improved by the use of caching technologies like APCu, Redis or Memcached.</p>
+improved by the use of caching technologies like APCu, <a href="https://redislabs.com/">Redis</a> or Memcached.</p>
 
-<p>This document configures <a href="https://owncloud.org/">ownCloud</a> with Apache, <a href="https://mariadb.com/">MariaDB</a> and Redis and installs
-ownCloud and supporting services using <a href="https://www.Docker.com/">Docker</a> images to quickly get things running
+<p>This document configures <a href="https://owncloud.org/">ownCloud</a> with Apache, <a href="https://mariadb.com/">MariaDB</a> and <a href="https://redislabs.com/">Redis</a> and installs
+<a href="https://owncloud.org/">ownCloud</a> and supporting services using <a href="https://www.Docker.com/">Docker</a> images to quickly get things running
 without manually satisfying software installation and configuration prerequisites.</p>
 
 <h3 id="prerequisites">Prerequisites</h3>
@@ -106,7 +106,7 @@ to configure the <a href="https://www.Docker.com/">Docker</a> repository for yum
   </li>
 </ul>
 
-<h3 id="administrative-decisions">Administrative Decisions</h3>
+<h3 id="customization">Customization</h3>
 <p>Define a username we will use to define permissions for various services</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export OC_USER=owncloud
 </code></pre></div></div>
@@ -130,7 +130,7 @@ export MARIADB_ROOT_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | 
 export MARIADB_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 </code></pre></div></div>
 
-<p>ownCloud Configuration</p>
+<p><a href="https://owncloud.org/">ownCloud</a> Configuration</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export OWNCLOUD_IMG=owncloud/server
 export OWNCLOUD_VERSION=10.0
 export OWNCLOUD_DOMAIN=localhost
@@ -149,7 +149,7 @@ host’s public IP.</p>
 <h3 id="steps-to-install-owncloud-using-docker">Steps to install <a href="https://owncloud.org/">ownCloud</a> using Docker</h3>
 
 <ul>
-  <li>Install Redis server
+  <li>Install <a href="https://redislabs.com/">Redis</a> server
     <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker volume create ${REDIS_VOL}
 docker run -d \
   --name redis \
@@ -198,7 +198,10 @@ docker run -d \
 <h3 id="connect-to-your-new-installation-1">Connect to your new installation</h3>
 
 <p>Your <a href="https://owncloud.org/">ownCloud</a> site should now be available by using a browser to connect to the
-host’s public IP.</p>
+host’s public IP. You should be able to login with ADMIN_USERNAME and ADMIN_PASSWORD
+as they were assigned above.</p>
+
+<p><img src="/images/login.png" alt="Login page" /></p>
 
 
   </div>

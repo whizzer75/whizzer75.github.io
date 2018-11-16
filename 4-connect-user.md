@@ -15,10 +15,4 @@ ownCloud makes available client software for Windows, Mac, Android and iOS.
 
 Open your browser and visit http://my-ip-address
 
-### Connect with Mac Software
-
-Install and open Mac software
-
-### Connect with Android Software
-
-Download from Google Play Store and launch application
+![Login page](/images/login.png)

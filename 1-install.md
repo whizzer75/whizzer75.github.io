@@ -11,13 +11,13 @@ and run [ownCloud] on a computer or server. [Centos] 7 was used during the creat
 of this guide but the [Docker] commands should work on any OS as long as 
 [Docker] version 17 or greater is installed.
 
-ownCloud is a file storage software written in [PHP] and is intended to be published 
-through a webserver like Apache or NGINX. [ownCloud] requires a database like
+[ownCloud] is a file storage software written in [PHP] and is intended to be published 
+through a webserver like [Apache] or NGINX. [ownCloud] requires a database like
 MySQL, [MariaDB], or PostgreSQL to store persistent data. Also [ownCloud] performance is
-improved by the use of caching technologies like APCu, Redis or Memcached. 
+improved by the use of caching technologies like APCu, [Redis] or Memcached. 
 
-This document configures [ownCloud] with Apache, [MariaDB] and Redis and installs
-ownCloud and supporting services using [Docker] images to quickly get things running
+This document configures [ownCloud] with Apache, [MariaDB] and [Redis] and installs
+[ownCloud] and supporting services using [Docker] images to quickly get things running
 without manually satisfying software installation and configuration prerequisites. 
 
 ### Prerequisites
@@ -29,7 +29,7 @@ without manually satisfying software installation and configuration prerequisite
     [this guide from Docker docs](https://docs.Docker.com/install/linux/Docker-ce/centos/#set-up-the-repository)
     to configure the [Docker] repository for yum and install version 17 with "yum install Docker-ce"
 
-### Administrative Decisions
+### Customization
 Define a username we will use to define permissions for various services
 ```
 export OC_USER=owncloud
@@ -56,7 +56,7 @@ export MARIADB_ROOT_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | 
 export MARIADB_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 ```
 
-ownCloud Configuration
+[ownCloud] Configuration
 ```
 export OWNCLOUD_IMG=owncloud/server
 export OWNCLOUD_VERSION=10.0
@@ -75,7 +75,7 @@ host's public IP.
 
 ### Steps to install [ownCloud] using Docker
 
-* Install Redis server
+* Install [Redis] server
   ```
   docker volume create ${REDIS_VOL}
   docker run -d \
@@ -123,7 +123,10 @@ host's public IP.
 ### Connect to your new installation
 
 Your [ownCloud] site should now be available by using a browser to connect to the
-host's public IP.
+host's public IP. You should be able to login with ADMIN_USERNAME and ADMIN_PASSWORD
+as they were assigned above.
+
+![Login page](/images/login.png)
 
 [ownCloud]: https://owncloud.org/
 [Centos]: https://www.centos.org/
@@ -131,3 +134,4 @@ host's public IP.
 [PHP]: https://www.php.net/
 [Redis]: https://redislabs.com/
 [MariaDB]: https://mariadb.com/
+[Apache]: https://httpd.apache.org/
