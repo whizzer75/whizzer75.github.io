@@ -113,14 +113,14 @@ to configure the <a href="https://www.Docker.com/">Docker</a> repository for yum
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export OC_USER=owncloud
 </code></pre></div></div>
 
-<p><a href="https://redislabs.com/">Redis</a> Configuration</p>
+<p><a href="https://redislabs.com/">Redis</a> Customization</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export REDIS_IMG=webhippie/redis:latest
 export REDIS_VOL=owncloud_redis
 export REDIS_MOUNT=/var/lib/redis
 export REDIS_DBS=1
 </code></pre></div></div>
 
-<p><a href="https://mariadb.com/">MariaDB</a> Configuration</p>
+<p><a href="https://mariadb.com/">MariaDB</a> Customization</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export MARIADB_IMG=webhippie/mariadb:latest
 export MARIADB_DB=${OC_USER}
 export MARIADB_DB_VOL=owncloud_mysql
@@ -132,7 +132,7 @@ export MARIADB_ROOT_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | 
 export MARIADB_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 </code></pre></div></div>
 
-<p><a href="https://owncloud.org/">ownCloud</a> Configuration</p>
+<p><a href="https://owncloud.org/">ownCloud</a> Customization</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export OWNCLOUD_IMG=owncloud/server
 export OWNCLOUD_VERSION=10.0
 export OWNCLOUD_DOMAIN=localhost
@@ -144,7 +144,7 @@ export OWNCLOUD_MNT=/mnt/data
 </code></pre></div></div>
 
 <h3 id="store-randomly-generated-passwords-for-later-reference">Store randomly generated passwords for later reference</h3>
-<p>We generated 3 random passwords in the previous steps using the following shell command</p>
+<p>We generated 3 random passwords in the previous steps using the following shell command.</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 </code></pre></div></div>
 <p>However, you may set these to any password you like if you prefer to personalize them. When

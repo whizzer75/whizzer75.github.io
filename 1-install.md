@@ -38,7 +38,7 @@ Define a username we will use to define permissions for various services
 export OC_USER=owncloud
 ```
 
-[Redis] Configuration
+[Redis] Customization
 ```
 export REDIS_IMG=webhippie/redis:latest
 export REDIS_VOL=owncloud_redis
@@ -46,7 +46,7 @@ export REDIS_MOUNT=/var/lib/redis
 export REDIS_DBS=1
 ```
 
-[MariaDB] Configuration
+[MariaDB] Customization
 ```
 export MARIADB_IMG=webhippie/mariadb:latest
 export MARIADB_DB=${OC_USER}
@@ -59,7 +59,7 @@ export MARIADB_ROOT_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | 
 export MARIADB_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 ```
 
-[ownCloud] Configuration
+[ownCloud] Customization
 ```
 export OWNCLOUD_IMG=owncloud/server
 export OWNCLOUD_VERSION=10.0
@@ -72,7 +72,7 @@ export OWNCLOUD_MNT=/mnt/data
 ```
 
 ### Store randomly generated passwords for later reference
-We generated 3 random passwords in the previous steps using the following shell command
+We generated 3 random passwords in the previous steps using the following shell command.
 ```
 $(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 ```
