@@ -20,7 +20,7 @@ supplied by your [ownCloud] administrator and hit enter.
 
 ![Login page](/images/login_new.png)
 
-To create a new folder to organize files on [ownCloud] or to upload a new file,
+To create a new folder for organizing files or to upload a new file,
 click the plus symbol near the top of the file list dialogue.
 
 ![Add a new file](/images/plus_file.png)
