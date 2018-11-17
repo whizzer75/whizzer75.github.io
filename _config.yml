@@ -9,7 +9,7 @@
 title: How to install and connect to ownCloud
 email: lloyd.peterson@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
-  Install and configure ownCloud server on public tcp port 8080.  Add a user account. Connect to Owncloud using a desktop or mobile client.
+  Install and configure ownCloud server. Expose public tcp port 8080.  Add a user account. Connect to Owncloud using a browser.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "localhost:4000" # the base hostname & protocol for your site
 #twitter_username: jekyllrb
