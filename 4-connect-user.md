@@ -4,7 +4,7 @@ title: Connect User
 permalink: /user/
 ---
 
-## Install and configure [ownCloud]
+## Connect to [ownCloud] as a user
 
 ### Introduction
 
