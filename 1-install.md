@@ -36,10 +36,13 @@ and configuration prerequisites.
 [docker_repo]: https://docs.docker.com/install/linux/docker-ce/centos/#set-up-the-repository
 
 ### Customization
-We will be using predefined images from Docker Hub that can be configured by
-defining environment variables with custom values, then using those values
-in our docker commands. It can also be convenient to store these variable 
-declarations in a file that can be easilly sourced later.
+We will use predefined images from Docker Hub to avoid some initial
+configuration of services that is taken care of already by the [Docker]
+image creator. We will define environment variables with custom values,
+then using those values in our docker commands. This makes it easy to
+optionally store our customizations in a file that can be sourced again
+later. It also keeps our custom values separate from the [Docker]
+commands used to implement them.
 
 Define the [ownCloud] administrative user. In this example, we use this
 name as the MariaDB database name, the MariaDB user with privileges to the
@@ -54,7 +57,7 @@ you can find more information in the [ownCloud Administrator's Manual][oc_admin_
 
 The docker image we are using from [webhippie] is mostly configured for us already.
 We will need a docker volume for this container so we give it a name, and we are 
-not building a scaled out Redis deployment so we will only need one Redis database.
+not scaling out Redis so only one database is needed.
 [oc_admin_redis]: https://doc.owncloud.org/server/10.0/admin_manual/configuration/server/caching_configuration.html#redis
 
 [Redis] Customization
@@ -64,10 +67,11 @@ export REDIS_VOL=owncloud_redis
 export REDIS_DBS=1
 ```
 
-The manual installation instructions for configuring MariaDB for ownCloud 
+The manual installation instructions for configuring [MariaDB] for [ownCloud] 
 include using InnoDB tables and disabling or customizing binary logging. 
+See [here][oc_mariadb] for more information about using MariaDB with [ownCloud]
 Because we are using the [Docker] image provided by [webhippie] these
-customizations have already been done for us.
+customizations have already been completed for us.
 
 We will define two [Docker] volumes for database files and backups. Also,
 we will generate random passwords for the MariaDB root user and the owncloud 
@@ -193,3 +197,4 @@ as they were assigned in the environment variables.
 [MariaDB]: https://mariadb.com/
 [Apache]: https://httpd.apache.org/
 [webhippie]: https://hub.docker.com/u/webhippie/
+[oc_mariadb]: https://doc.owncloud.org/server/latest/admin_manual/configuration/database/linux_database_configuration.html#mysql-mariadb-with-binary-logging-enabled
