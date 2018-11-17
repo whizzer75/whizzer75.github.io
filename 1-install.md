@@ -74,7 +74,7 @@ We generated 3 random passwords in the previous steps using the following shell 
 ```
 $(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 ```
-However, you may set these to any password you like if you prefer to personalize them. When
+However, you may set these to any password if you prefer to personalize them. When
 the environment variables hold the correct passwords store them someplace secure and permanent for
 future use.
 
