@@ -25,7 +25,8 @@ click the plus symbol near the top of the file list dialogue.
 
 ![Add a new file](/images/plus_file.png)
 
-To download a file, simply click the file name in the file list dialogue.
+To download a file, simply click the file name in the file list dialogue and
+use the pop-up filesystem dialogue to choose where to save the file.
 
 [ownCloud]: https://owncloud.org/
 [Centos]: https://www.centos.org/
