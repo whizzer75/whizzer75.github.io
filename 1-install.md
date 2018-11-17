@@ -13,8 +13,9 @@ and uses a database for persistent storage. [ownCloud] performance can also
 benefit from caching web content in memory.
 
 [ownCloud] can be be run with different combinations of software to achieve these
-objectives, but this document will show how to implement using [Apache], 
-[MariaDB] and [Redis].
+objectives, but this document will show how to implement using [Apache] for the
+web server role, [MariaDB] as the databse, and [Redis] to cache web content in
+memory..
 
 [Centos] 7 was used during the creation of this guide but the [Docker] commands 
 should work on any OS as long as [Docker] version 17 or greater is installed. 
@@ -22,10 +23,10 @@ Using [Docker] to install [ownCloud] and supporting services will allow us to
 quickly get things running without manually satisfying software installation 
 and configuration prerequisites.
 
-
 ### Prerequisites
 
 * A Computer running [Centos] 7 with a working internet connection
+* BASH shell
 * [Docker] CE version 17 or greater - Using the command "yum install docker"
   on [Centos] 7 installed [Docker] version 13. That is too old to support
   some of the syntax we use in the following [Docker] commands. I used
@@ -34,11 +35,28 @@ and configuration prerequisites.
   "yum install docker-ce"
 
 [docker_repo]: https://docs.docker.com/install/linux/docker-ce/centos/#set-up-the-repository
+
 ### Customization
-Define a username we will use to define permissions for various services
+We will be using predefined images from Docker Hub that can be configured by
+defining environment variables with custom values, then using those values
+in our docker commands. It can also be convenient to store these variable 
+declarations in a file that can be easilly sourced later.
+
+Define the [ownCloud] administrative user. In this example, we use this
+name as the MariaDB database name, the MariaDB user with privileges to the
+database, and the initial administrative user name for [ownCloud].
 ```
 export OC_USER=owncloud
 ```
+
+[Redis] improves performance for [ownCloud] by providing memory caching for web
+content. If you would like to read more about how [ownCloud] uses [Redis],
+you can find more information in the [ownCloud Administrator's Manual][oc_admin_redis].
+
+The docker image we are using from webhippie is mostly configured for us already.
+We will need a docker volume for this container so we give it a name, and we are 
+not building a scaled out Redis deployment so we will only need one Redis database.
+[oc_admin_redis]: https://doc.owncloud.org/server/10.0/admin_manual/configuration/server/caching_configuration.html#redis
 
 [Redis] Customization
 ```
@@ -47,36 +65,61 @@ export REDIS_VOL=owncloud_redis
 export REDIS_DBS=1
 ```
 
+The manual installation instructions for configuring MariaDB for ownCloud 
+include using InnoDB tables and disabling or customizing binary logging. 
+Because we are using the [Docker] image provided by webhippie these
+customizations have already been done for us.
+
+We will define two [Docker] volumes for database files and backups. Also,
+we will generate random passwords for the MariaDB root user and the owncloud 
+user.
+
+Beware that running the password export commands multiple times will overwrite the
+previous variable value with a new randomly generated password. For this
+reason, we will store the generated passwords in a text file in a later step.
+Feel free to substitute a more secure password storage method of your
+choice instead of using a text file, but you will want to record them
+in order to troubleshoot and maintain your installation.
+
 [MariaDB] Customization
 ```
 export MARIADB_IMG=webhippie/mariadb:latest
-export MARIADB_DB=${OC_USER}
 export MARIADB_DB_VOL=owncloud_mysql
 export MARIADB_BAK_VOL=owncloud_backup
+export MARIADB_DB=${OC_USER}
 export MARIADB_USER=${OC_USER}
 export MARIADB_ROOT_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 export MARIADB_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 ```
 
+We will use an official [ownCloud] Docker image that also needs a docker volume for persistent data. 
+[ownCloud] can use external authentication mechanisms, but we use local authentication by setting
+the domain to "localhost". We name the admin user, generate a password, and choose ant
+external TCP port for publishing [ownCloud].
+
 [ownCloud] Customization
 ```
 export OWNCLOUD_IMG=owncloud/server
+export OWNCLOUD_VOL=owncloud_files
 export OWNCLOUD_VERSION=10.0
 export OWNCLOUD_DOMAIN=localhost
 export ADMIN_USERNAME=${OC_USER}
 export ADMIN_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 export PUBLIC_HTTP_PORT=80
-export OWNCLOUD_VOL=owncloud_files
 ```
 
 ### Store randomly generated passwords for later reference
-We generated 3 random passwords in the previous steps using the following shell command.
+We generated 3 random passwords in the previous steps. They are assigned
+to environment variables like shown in this example.
 ```
-$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
+MARIADB_ROOT_PASSWORD=JJJlUyvk8psJ
+MARIADB_PASSWORD=iDompXUZLR0K
+ADMIN_PASSWORD=0yS2oRPTtRt2
 ```
-However, you may set these to any password if you prefer to personalize them. When
-the environment variables hold the correct passwords store them someplace secure and permanent for
-future use.
+However, you may set these to any password you prefer. When
+the environment variables have been set appropriately, store the
+passwords someplace secure for future use. Here I store them
+in a text file for simplicity.
 
 ```
 env | grep PASSWORD | tee password_file.txt
@@ -84,8 +127,9 @@ chmod 400 password_file.txt
 ```
 
 ### Steps to install [ownCloud] using [Docker]
-With all of the customizations finalized and stored in environment
-variables we can quickly deploy the entire [ownCloud] stack with 
+With all customizations finalized and stored in environment
+variables, we can quickly deploy the entire [ownCloud] stack with 
+a few boilerplate [Docker] commands.
 
 * Install [Redis] server
   ```
