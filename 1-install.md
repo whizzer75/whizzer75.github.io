@@ -13,9 +13,8 @@ and uses a database for persistent storage. [ownCloud] performance can also
 benefit from caching web content in memory.
 
 [ownCloud] can be be run with different combinations of software to achieve these
-objectives, but this document will show how to implement using [Apache] for the
-web server role, [MariaDB] as the databse, and [Redis] to cache web content in
-memory..
+objectives, but this document will show how to implement using the [Apache]
+web server, [MariaDB] database, and [Redis] for caching web content in memory.
 
 [Centos] 7 was used during the creation of this guide but the [Docker] commands 
 should work on any OS as long as [Docker] version 17 or greater is installed. 
