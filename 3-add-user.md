@@ -29,7 +29,7 @@ in the table to change it.
 ![Change password][chg_pass]
 
 After logging out, you should be able to log in with the
-new credentials you have created.
+new credentials.
 
 [dropdown]: /images/dropdown.png
 [create_user]: /images/create_user.png
