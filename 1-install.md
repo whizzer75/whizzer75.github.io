@@ -27,7 +27,7 @@ and configuration prerequisites.
 
 * A Computer running [Centos] 7 with a working internet connection
 * [Docker] CE version 17 or greater
-  * Using the command "yum install Docker" on [Centos] 7 installed version 13. That is
+  * Using the command "yum install docker" on [Centos] 7 installed version 13. That is
     too old to support some of the syntax we use in the following [Docker] commands. I used 
     [this guide from Docker docs](https://docs.docker.com/install/linux/docker-ce/centos/#set-up-the-repository)
     to configure the [Docker] repository for yum and install version 17 with "yum install docker-ce"
