@@ -15,7 +15,7 @@ to expose a drop down list and select "Users".
 
 ![Drop-down menu][dropdown]  
 
-At the top of the user management screen type the name of the new
+At the top of the user management screen, type the name of the new
 user you wish to create and their email address in the appropriate
 text fields. Optionally, drop down the "Groups" menu and choose an 
 existing group or create a new one. When you are finished, click 
