@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>TCP/8080</title>
-  <meta name="description" content="Install and configure ownCloud server on public tcp port 8080.  Add a user account. Connect to Owncloud using a desktop or mobile client.
+  <meta name="description" content="Install and configure ownCloud server. Expose public tcp port 8080.  Add a user account. Connect to Owncloud using a browser.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
@@ -84,16 +84,16 @@
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export PUBLIC_HTTP_PORT=80
 </code></pre></div></div>
 
-<p>The port assignment is then set for the <a href="https://www.Docker.com/">Docker</a> image when we run the <a href="https://owncloud.org/">ownCloud</a>
-image with the -p parameter. The -p parameter for “docker run” configures
-external networking by using iptables to port forward between the external and
-internal ports. The syntax is as follows.</p>
+<p>The port assignment is set when the <a href="https://owncloud.org/">ownCloud</a> image is run with the -p
+parameter. The -p parameter for “docker run” exposes an external tcp port
+by adding a rule to iptables for port forwarding between the external
+and internal ports. The syntax is as follows.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-p $EXTERNAL_PORT:$INTERNAL_CONTAINER_PORT
 </code></pre></div></div>
 
-<p>The default internal container port for the owncloud image we are using is 8080,
-so if we wanted to publish ownCloud on port 8080 externally the -p parameter should
+<p>The default internal container port for the owncloud image we are using is 8080.
+If we want to publish ownCloud on port 8080 externally the -p parameter should
 look as follows when we run the container.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-p 8080:8080
@@ -105,14 +105,9 @@ executing the “docker run” command to start <a href="https://owncloud.org/">
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export PUBLIC_HTTP_PORT=8080
 </code></pre></div></div>
 
-<p>Also when connecting you will need to specifiy this port explicitly if it is not port 80:</p>
+<h2 id="how-to-change-ports-if-owncloud-is-already-running">How to change ports if <a href="https://owncloud.org/">ownCloud</a> is already running</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://54.39.22.182:8080
-</code></pre></div></div>
-
-<h2 id="how-to-change-if-you-already-configured-port-80">How to change if you already configured port 80</h2>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo docker ps
 </code></pre></div></div>
 
 <p>Output:</p>
@@ -123,14 +118,14 @@ c1e39016ec5c        webhippie/redis:latest     "/usr/bin/entrypoint…"   3 hour
 </code></pre></div></div>
 
 <p>Find the container ID for the <a href="https://owncloud.org/">ownCloud</a> container and stop it</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker stop 67e1033dece0
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo docker stop 67e1033dece0
 </code></pre></div></div>
 <p>Remove the container</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker rm 67e1033dece0
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo docker rm 67e1033dece0
 </code></pre></div></div>
 <p>Change the environment variable defining the public port and run the container again</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export PUBLIC_HTTP_PORT=8080
-docker run -d \
+sudo docker run -d \
   --name owncloud \
   --link mariadb:db \
   --link redis:redis \
@@ -145,11 +140,16 @@ docker run -d \
   -e OWNCLOUD_ADMIN_PASSWORD=${ADMIN_PASSWORD} \
   -e OWNCLOUD_REDIS_ENABLED=true \
   -e OWNCLOUD_REDIS_HOST=redis \
-  --volume ${OWNCLOUD_VOL}:${OWNCLOUD_MNT} \
+  --volume ${OWNCLOUD_VOL}:/mnt/data \
   ${OWNCLOUD_IMG}:${OWNCLOUD_VERSION}
 </code></pre></div></div>
 
 <h2 id="log-into-the-web-gui-using-port-8080">Log into the web GUI using port 8080</h2>
+
+<p>When connecting you will need to specifiy this port explicitly if it is not port 80:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://192.168.3.8:8080
+</code></pre></div></div>
 
 <p><img src="/images/login8080.png" alt="login8080" /></p>
 
@@ -190,7 +190,7 @@ docker run -d \
       </div>
 
       <div class="footer-col footer-col-3">
-        <p>Install and configure ownCloud server on public tcp port 8080.  Add a user account. Connect to Owncloud using a desktop or mobile client.
+        <p>Install and configure ownCloud server. Expose public tcp port 8080.  Add a user account. Connect to Owncloud using a browser.
 </p>
       </div>
     </div>

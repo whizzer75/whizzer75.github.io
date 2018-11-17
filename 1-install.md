@@ -26,7 +26,7 @@ and configuration prerequisites.
 ### Prerequisites
 
 * A Computer running [Centos] 7 with a working internet connection
-* BASH shell
+* BASH shell, and sudo or root access
 * [Docker] CE version 17 or greater - Using the command "yum install docker"
   on [Centos] 7 installed [Docker] version 13. That is too old to support
   some of the syntax we use in the following [Docker] commands. I used
@@ -53,7 +53,7 @@ export OC_USER=owncloud
 content. If you would like to read more about how [ownCloud] uses [Redis],
 you can find more information in the [ownCloud Administrator's Manual][oc_admin_redis].
 
-The docker image we are using from webhippie is mostly configured for us already.
+The docker image we are using from [webhippie] is mostly configured for us already.
 We will need a docker volume for this container so we give it a name, and we are 
 not building a scaled out Redis deployment so we will only need one Redis database.
 [oc_admin_redis]: https://doc.owncloud.org/server/10.0/admin_manual/configuration/server/caching_configuration.html#redis
@@ -67,7 +67,7 @@ export REDIS_DBS=1
 
 The manual installation instructions for configuring MariaDB for ownCloud 
 include using InnoDB tables and disabling or customizing binary logging. 
-Because we are using the [Docker] image provided by webhippie these
+Because we are using the [Docker] image provided by [webhippie] these
 customizations have already been done for us.
 
 We will define two [Docker] volumes for database files and backups. Also,
@@ -129,12 +129,14 @@ chmod 400 password_file.txt
 ### Steps to install [ownCloud] using [Docker]
 With all customizations finalized and stored in environment
 variables, we can quickly deploy the entire [ownCloud] stack with 
-a few boilerplate [Docker] commands.
+a few boilerplate [Docker] commands. Docker commands generally
+need to be run with root privileges. We will use sudo here
+to avoid logging in as root.
 
 * Install [Redis] server
   ```
-  docker volume create ${REDIS_VOL}
-  docker run -d \
+  sudo docker volume create ${REDIS_VOL}
+  sudo docker run -d \
     --name redis \
     -e REDIS_DATABASES=${REDIS_DBS} \
     --volume ${REDIS_VOL}:/var/lib/redis \
@@ -142,9 +144,9 @@ a few boilerplate [Docker] commands.
   ```
 * Install [MariaDB] server
   ```
-  docker volume create ${MARIADB_DB_VOL}
-  docker volume create ${MARIADB_BAK_VOL}
-  docker run -d \
+  sudo docker volume create ${MARIADB_DB_VOL}
+  sudo docker volume create ${MARIADB_BAK_VOL}
+  sudo docker run -d \
     --name mariadb \
     -e MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD} \
     -e MARIADB_USERNAME=${MARIADB_USER} \
@@ -156,8 +158,8 @@ a few boilerplate [Docker] commands.
   ```
 * Install [ownCloud] server
   ```
-  docker volume create ${OWNCLOUD_VOL}
-  docker run -d \
+  sudo docker volume create ${OWNCLOUD_VOL}
+  sudo docker run -d \
     --name owncloud \
     --link mariadb:db \
     --link redis:redis \
@@ -191,3 +193,4 @@ as they were assigned in the environment variables.
 [Redis]: https://redislabs.com/
 [MariaDB]: https://mariadb.com/
 [Apache]: https://httpd.apache.org/
+[webhippie]: https://hub.docker.com/u/webhippie/

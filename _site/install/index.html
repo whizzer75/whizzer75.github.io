@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Install</title>
-  <meta name="description" content="Install and configure ownCloud server on public tcp port 8080.  Add a user account. Connect to Owncloud using a desktop or mobile client.
+  <meta name="description" content="Install and configure ownCloud server. Expose public tcp port 8080.  Add a user account. Connect to Owncloud using a browser.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
@@ -81,12 +81,13 @@
 <p>This document is intended for adminstrators who want to quickly install
 and run <a href="https://owncloud.org/">ownCloud</a> on a computer or server. <a href="https://owncloud.org/">ownCloud</a> is a file storage
 software written in <a href="https://www.php.net/">PHP</a>. It is intended to be published through a webserver 
-and uses a database for persistent storage. <a href="https://owncloud.org/">ownCloud</a> can aldo benefit from 
-memory caching.</p>
+and uses a database for persistent storage. <a href="https://owncloud.org/">ownCloud</a> performance can also
+benefit from caching web content in memory.</p>
 
 <p><a href="https://owncloud.org/">ownCloud</a> can be be run with different combinations of software to achieve these
-objectives, but this document will show how to get running using <a href="https://httpd.apache.org/">Apache</a>, 
-<a href="https://mariadb.com/">MariaDB</a> and <a href="https://redislabs.com/">Redis</a>.</p>
+objectives, but this document will show how to implement using <a href="https://httpd.apache.org/">Apache</a> for the
+web server role, <a href="https://mariadb.com/">MariaDB</a> as the databse, and <a href="https://redislabs.com/">Redis</a> to cache web content in
+memory..</p>
 
 <p><a href="https://www.centos.org/">Centos</a> 7 was used during the creation of this guide but the <a href="https://www.Docker.com/">Docker</a> commands 
 should work on any OS as long as <a href="https://www.Docker.com/">Docker</a> version 17 or greater is installed. 
@@ -98,92 +99,133 @@ and configuration prerequisites.</p>
 
 <ul>
   <li>A Computer running <a href="https://www.centos.org/">Centos</a> 7 with a working internet connection</li>
-  <li><a href="https://www.Docker.com/">Docker</a> CE version 17 or greater
-    <ul>
-      <li>Using the command “yum install Docker” on <a href="https://www.centos.org/">Centos</a> 7 installed version 13. That is
-too old to support some of the syntax we use in the following <a href="https://www.Docker.com/">Docker</a> commands. I used 
-<a href="https://docs.docker.com/install/linux/docker-ce/centos/#set-up-the-repository">this guide from Docker docs</a>
-to configure the <a href="https://www.Docker.com/">Docker</a> repository for yum and install version 17 with “yum install docker-ce”</li>
-    </ul>
-  </li>
+  <li>BASH shell, and sudo or root access</li>
+  <li><a href="https://www.Docker.com/">Docker</a> CE version 17 or greater - Using the command “yum install docker”
+on <a href="https://www.centos.org/">Centos</a> 7 installed <a href="https://www.Docker.com/">Docker</a> version 13. That is too old to support
+some of the syntax we use in the following <a href="https://www.Docker.com/">Docker</a> commands. I used
+<a href="https://docs.docker.com/install/linux/docker-ce/centos/#set-up-the-repository">this guide from Docker docs</a> to configure the official 
+<a href="https://www.Docker.com/">Docker</a> repository for yum and install <a href="https://www.Docker.com/">Docker</a> version 17 with 
+“yum install docker-ce”</li>
 </ul>
 
 <h3 id="customization">Customization</h3>
-<p>Define a username we will use to define permissions for various services</p>
+<p>We will be using predefined images from Docker Hub that can be configured by
+defining environment variables with custom values, then using those values
+in our docker commands. It can also be convenient to store these variable 
+declarations in a file that can be easilly sourced later.</p>
+
+<p>Define the <a href="https://owncloud.org/">ownCloud</a> administrative user. In this example, we use this
+name as the MariaDB database name, the MariaDB user with privileges to the
+database, and the initial administrative user name for <a href="https://owncloud.org/">ownCloud</a>.</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export OC_USER=owncloud
 </code></pre></div></div>
+
+<p><a href="https://redislabs.com/">Redis</a> improves performance for <a href="https://owncloud.org/">ownCloud</a> by providing memory caching for web
+content. If you would like to read more about how <a href="https://owncloud.org/">ownCloud</a> uses <a href="https://redislabs.com/">Redis</a>,
+you can find more information in the [ownCloud Administrator’s Manual][oc_admin_redis].</p>
+
+<p>The docker image we are using from <a href="https://hub.docker.com/u/webhippie/">webhippie</a> is mostly configured for us already.
+We will need a docker volume for this container so we give it a name, and we are 
+not building a scaled out Redis deployment so we will only need one Redis database.
+[oc_admin_redis]: https://doc.owncloud.org/server/10.0/admin_manual/configuration/server/caching_configuration.html#redis</p>
 
 <p><a href="https://redislabs.com/">Redis</a> Customization</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export REDIS_IMG=webhippie/redis:latest
 export REDIS_VOL=owncloud_redis
-export REDIS_MOUNT=/var/lib/redis
 export REDIS_DBS=1
 </code></pre></div></div>
 
+<p>The manual installation instructions for configuring MariaDB for ownCloud 
+include using InnoDB tables and disabling or customizing binary logging. 
+Because we are using the <a href="https://www.Docker.com/">Docker</a> image provided by <a href="https://hub.docker.com/u/webhippie/">webhippie</a> these
+customizations have already been done for us.</p>
+
+<p>We will define two <a href="https://www.Docker.com/">Docker</a> volumes for database files and backups. Also,
+we will generate random passwords for the MariaDB root user and the owncloud 
+user.</p>
+
+<p>Beware that running the password export commands multiple times will overwrite the
+previous variable value with a new randomly generated password. For this
+reason, we will store the generated passwords in a text file in a later step.
+Feel free to substitute a more secure password storage method of your
+choice instead of using a text file, but you will want to record them
+in order to troubleshoot and maintain your installation.</p>
+
 <p><a href="https://mariadb.com/">MariaDB</a> Customization</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export MARIADB_IMG=webhippie/mariadb:latest
-export MARIADB_DB=${OC_USER}
 export MARIADB_DB_VOL=owncloud_mysql
-export MARIADB_DB_MNT=/var/lib/mysql
 export MARIADB_BAK_VOL=owncloud_backup
-export MARIADB_BAK_MNT=/var/lib/backup
+export MARIADB_DB=${OC_USER}
 export MARIADB_USER=${OC_USER}
 export MARIADB_ROOT_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 export MARIADB_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 </code></pre></div></div>
 
+<p>We will use an official <a href="https://owncloud.org/">ownCloud</a> Docker image that also needs a docker volume for persistent data. 
+<a href="https://owncloud.org/">ownCloud</a> can use external authentication mechanisms, but we use local authentication by setting
+the domain to “localhost”. We name the admin user, generate a password, and choose ant
+external TCP port for publishing <a href="https://owncloud.org/">ownCloud</a>.</p>
+
 <p><a href="https://owncloud.org/">ownCloud</a> Customization</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export OWNCLOUD_IMG=owncloud/server
+export OWNCLOUD_VOL=owncloud_files
 export OWNCLOUD_VERSION=10.0
 export OWNCLOUD_DOMAIN=localhost
 export ADMIN_USERNAME=${OC_USER}
 export ADMIN_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 export PUBLIC_HTTP_PORT=80
-export OWNCLOUD_VOL=owncloud_files
-export OWNCLOUD_MNT=/mnt/data
 </code></pre></div></div>
 
 <h3 id="store-randomly-generated-passwords-for-later-reference">Store randomly generated passwords for later reference</h3>
-<p>We generated 3 random passwords in the previous steps using the following shell command.</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
+<p>We generated 3 random passwords in the previous steps. They are assigned
+to environment variables like shown in this example.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MARIADB_ROOT_PASSWORD=JJJlUyvk8psJ
+MARIADB_PASSWORD=iDompXUZLR0K
+ADMIN_PASSWORD=0yS2oRPTtRt2
 </code></pre></div></div>
-<p>However, you may set these to any password you like if you prefer to personalize them. When
-the environment variables hold the correct passwords store them someplace secure and permanent for
-future use.</p>
+<p>However, you may set these to any password you prefer. When
+the environment variables have been set appropriately, store the
+passwords someplace secure for future use. Here I store them
+in a text file for simplicity.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>env | grep PASSWORD | tee password_file.txt
 chmod 400 password_file.txt
 </code></pre></div></div>
 
 <h3 id="steps-to-install-owncloud-using-docker">Steps to install <a href="https://owncloud.org/">ownCloud</a> using <a href="https://www.Docker.com/">Docker</a></h3>
+<p>With all customizations finalized and stored in environment
+variables, we can quickly deploy the entire <a href="https://owncloud.org/">ownCloud</a> stack with 
+a few boilerplate <a href="https://www.Docker.com/">Docker</a> commands. Docker commands generally
+need to be run with root privileges. We will use sudo here
+to avoid logging in as root.</p>
 
 <ul>
   <li>Install <a href="https://redislabs.com/">Redis</a> server
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker volume create ${REDIS_VOL}
-docker run -d \
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo docker volume create ${REDIS_VOL}
+sudo docker run -d \
   --name redis \
   -e REDIS_DATABASES=${REDIS_DBS} \
-  --volume ${REDIS_VOL}:${REDIS_MOUNT} \
+  --volume ${REDIS_VOL}:/var/lib/redis \
 ${REDIS_IMG}
 </code></pre></div>    </div>
   </li>
   <li>Install <a href="https://mariadb.com/">MariaDB</a> server
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker volume create ${MARIADB_DB_VOL}
-docker volume create ${MARIADB_BAK_VOL}
-docker run -d \
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo docker volume create ${MARIADB_DB_VOL}
+sudo docker volume create ${MARIADB_BAK_VOL}
+sudo docker run -d \
   --name mariadb \
   -e MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD} \
   -e MARIADB_USERNAME=${MARIADB_USER} \
   -e MARIADB_PASSWORD=${MARIADB_PASSWORD} \
   -e MARIADB_DATABASE=${MARIADB_DB} \
-  --volume ${MARIADB_DB_VOL}:${MARIADB_DB_MNT} \
-  --volume ${MARIADB_BAK_VOL}:${MARIADB_BAK_MNT} \
+  --volume ${MARIADB_DB_VOL}:/var/lib/mysql \
+  --volume ${MARIADB_BAK_VOL}:/var/lib/backup \
   ${MARIADB_IMG}
 </code></pre></div>    </div>
   </li>
   <li>Install <a href="https://owncloud.org/">ownCloud</a> server
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker volume create ${OWNCLOUD_VOL}
-docker run -d \
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo docker volume create ${OWNCLOUD_VOL}
+sudo docker run -d \
   --name owncloud \
   --link mariadb:db \
   --link redis:redis \
@@ -198,7 +240,7 @@ docker run -d \
   -e OWNCLOUD_ADMIN_PASSWORD=${ADMIN_PASSWORD} \
   -e OWNCLOUD_REDIS_ENABLED=true \
   -e OWNCLOUD_REDIS_HOST=redis \
-  --volume ${OWNCLOUD_VOL}:${OWNCLOUD_MNT} \
+  --volume ${OWNCLOUD_VOL}:/mnt/data \
   ${OWNCLOUD_IMG}:${OWNCLOUD_VERSION}
 </code></pre></div>    </div>
   </li>
@@ -207,8 +249,8 @@ docker run -d \
 <h3 id="connect-to-your-new-installation">Connect to your new installation</h3>
 
 <p>Your <a href="https://owncloud.org/">ownCloud</a> site should now be available by using a browser to connect to the
-host’s public IP. You can login with ADMIN_USERNAME and ADMIN_PASSWORD
-as they were assigned above.</p>
+host’s public IP. You can login with $ADMIN_USERNAME and $ADMIN_PASSWORD
+as they were assigned in the environment variables.</p>
 
 <p><img src="/images/login.png" alt="Login page" /></p>
 
@@ -249,7 +291,7 @@ as they were assigned above.</p>
       </div>
 
       <div class="footer-col footer-col-3">
-        <p>Install and configure ownCloud server on public tcp port 8080.  Add a user account. Connect to Owncloud using a desktop or mobile client.
+        <p>Install and configure ownCloud server. Expose public tcp port 8080.  Add a user account. Connect to Owncloud using a browser.
 </p>
       </div>
     </div>
