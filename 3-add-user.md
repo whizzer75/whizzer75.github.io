@@ -17,7 +17,7 @@ browser. Click the name to expose a drop down list and select "Users".
 
 At the top of the user management screen type the name of the new
 user you wish to create and their email address in the appropriate
-text fields. Optionally drop down the "Groups" menu and choose an 
+text fields. Optionally, drop down the "Groups" menu and choose an 
 existing group or create a new one. When you are finished, click 
 "Create".
 
@@ -27,6 +27,9 @@ Optionally, select the pencil icon next to the new user's password
 in the table to change it.
 
 ![Change password][chg_pass]
+
+After logging out, you should now be able to log in with the
+new credentials you have created.
 
 [dropdown]: /images/dropdown.png
 [create_user]: /images/create_user.png
