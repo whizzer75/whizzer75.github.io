@@ -58,6 +58,7 @@ you can find more information in the [ownCloud Administrator's Manual][oc_admin_
 The docker image we are using from [webhippie] is mostly configured for us already.
 We will need a docker volume for this container so we give it a name, and we are 
 not scaling out Redis so only one database is needed.
+
 [oc_admin_redis]: https://doc.owncloud.org/server/10.0/admin_manual/configuration/server/caching_configuration.html#redis
 
 Redis Customization
