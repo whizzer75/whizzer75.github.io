@@ -8,7 +8,7 @@ permalink: /add-user/
 
 ### Introduction
 
-Log in to [ownCloud] using the admin credentials you created during 
+Log in to [ownCloud] using the admin credentials created during 
 installation. In this guide the username was "owncloud" which you 
 will find in the top right corner of the browser after logging in. 
 Click the name to expose a drop down list and select "Users".
