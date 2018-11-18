@@ -74,13 +74,13 @@ Because we are using the Docker image provided by webhippie these
 customizations have already been completed for us.
 
 We will define two Docker volumes for database files and backups. Also,
-we will generate random passwords for the MariaDB root user and the owncloud 
-user.
+we will generate random passwords for the MariaDB root user and the MariaDB
+owncloud user.
 
 Beware that running the password export commands multiple times will overwrite the
 previous variable value with a new randomly generated password. For this
 reason, we will store the generated passwords in a text file in a later step.
-Feel free to substitute a more secure password storage method of your
+You may substitute a more secure password storage method of your
 choice instead of using a text file, but you will want to record them
 in order to troubleshoot and maintain your installation.
 
