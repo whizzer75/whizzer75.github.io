@@ -37,7 +37,7 @@ and configuration prerequisites.
 
 ### Customization
 We will use predefined images from Docker Hub to avoid some initial
-configuration of services that is taken care of already by the Docker
+configuration of services that is already completed by the Docker
 image creator. We will define environment variables with custom values,
 then use those variables in our docker commands. This makes it easy to
 optionally store our custom configurations in a file that can be sourced again
@@ -70,7 +70,7 @@ export REDIS_DBS=1
 
 The manual installation instructions for configuring MariaDB for ownCloud 
 include using InnoDB tables and disabling or customizing binary logging. 
-See [here][oc_mariadb] for more information about using MariaDB with ownCloud
+See [here][oc_mariadb] for more information about using MariaDB with ownCloud.
 Because we are using the Docker image provided by webhippie these
 customizations have already been completed for us.
 
