@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>How to install and connect to ownCloud</title>
+  <title>TCP/8080</title>
   <meta name="description" content="Install and configure ownCloud server. Expose public tcp port 8080.  Add a user account. Connect to Owncloud using a browser.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="localhost:4000/">
+  <link rel="canonical" href="localhost:4000/tcp-8080/">
   <link rel="alternate" type="application/rss+xml" title="How to install and connect to ownCloud" href="localhost:4000/feed.xml">
 </head>
 
@@ -40,6 +40,14 @@
           
         
           
+          <a class="page-link" href="/install/">Install</a>
+          
+        
+          
+          <a class="page-link" href="/tcp-8080/">TCP/8080</a>
+          
+        
+          
           <a class="page-link" href="/tcp-8080/">TCP/8080</a>
           
         
@@ -49,6 +57,12 @@
         
           
           <a class="page-link" href="/user/">Connect User</a>
+          
+        
+          
+          <a class="page-link" href="/user/">Connect User</a>
+          
+        
           
         
           
@@ -67,43 +81,111 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <article class="post">
 
-  <h1 class="page-heading">Contents:</h1>
+  <header class="post-header">
+    <h1 class="post-title">TCP/8080</h1>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-          <a href="/install/">Install</a>
-      </li>
-    
-      <li>
-          <a href="/tcp-8080/">TCP/8080</a>
-      </li>
-    
-      <li>
-          <a href="/add-user/">Add User</a>
-      </li>
-    
-      <li>
-          <a href="/user/">Connect User</a>
-      </li>
-    
-      <li>
-          <a href="/feed.xml"></a>
-      </li>
-    
-      <li>
-          <a href="/"></a>
-      </li>
-    
-      <li>
-          <a href="/css/main.css"></a>
-      </li>
-    
-  </ul>
+  <div class="post-content">
+    ## Expose [ownCloud] publicly on TCP/8080
 
-</div>
+On the [installation page](/install/) of this guide, we set the external port
+[ownCloud] will expose with the following definition.
+
+```
+export PUBLIC_HTTP_PORT=80
+```
+
+The port assignment is set when the [ownCloud] image is run with the -p
+parameter. The -p parameter for "docker run" exposes an external tcp port
+by adding a rule to iptables for port forwarding between the external
+and internal ports. The syntax is as follows.
+
+```
+-p $EXTERNAL_PORT:$INTERNAL_CONTAINER_PORT
+```
+
+The default internal container port for the owncloud image we are using is 8080.
+If we want to publish ownCloud on port 8080 externally the -p parameter should
+look as follows when we run the container.
+
+```
+-p 8080:8080
+```
+
+Change the value of the environment variable to the desired port number before
+executing the "docker run" command to start [ownCloud].
+
+```
+export PUBLIC_HTTP_PORT=8080
+```
+
+## How to change ports if [ownCloud] is already running
+
+```
+sudo docker ps
+```
+
+Output:
+```
+CONTAINER ID        IMAGE                      COMMAND                  CREATED             STATUS              PORTS                  NAMES
+67e1033dece0        owncloud/server:10.0       "/usr/bin/entrypoint…"   3 hours ago         Up 3 hours          0.0.0.0:80->8080/tcp   owncloud
+79bfaf54c7bf        webhippie/mariadb:latest   "/usr/bin/entrypoint…"   3 hours ago         Up 3 hours          3306/tcp               mariadb
+c1e39016ec5c        webhippie/redis:latest     "/usr/bin/entrypoint…"   3 hours ago         Up 3 hours          6379/tcp               redis
+```
+
+Find the container ID for the [ownCloud] container and stop it
+```
+sudo docker stop 67e1033dece0
+```
+Remove the container
+```
+sudo docker rm 67e1033dece0
+```
+Change the environment variable defining the public port and run the container again
+```
+export PUBLIC_HTTP_PORT=8080
+sudo docker run -d \
+  --name owncloud \
+  --link mariadb:db \
+  --link redis:redis \
+  -p ${PUBLIC_HTTP_PORT}:8080 \
+  -e OWNCLOUD_DOMAIN=${OWNCLOUD_DOMAIN} \
+  -e OWNCLOUD_DB_TYPE=mysql \
+  -e OWNCLOUD_DB_NAME=${MARIADB_DB} \
+  -e OWNCLOUD_DB_USERNAME=${MARIADB_USER} \
+  -e OWNCLOUD_DB_PASSWORD=${MARIADB_PASSWORD} \
+  -e OWNCLOUD_DB_HOST=db \
+  -e OWNCLOUD_ADMIN_USERNAME=${ADMIN_USERNAME} \
+  -e OWNCLOUD_ADMIN_PASSWORD=${ADMIN_PASSWORD} \
+  -e OWNCLOUD_REDIS_ENABLED=true \
+  -e OWNCLOUD_REDIS_HOST=redis \
+  --volume ${OWNCLOUD_VOL}:/mnt/data \
+  ${OWNCLOUD_IMG}:${OWNCLOUD_VERSION}
+```
+
+## Log into the web GUI using port 8080
+
+When connecting you will need to specifiy this port explicitly if it is not port 80:
+
+```
+http://192.168.3.8:8080
+```
+
+![login8080](/images/login8080.png)
+
+[ownCloud]: https://owncloud.org/
+[Centos]: https://www.centos.org/
+[Docker]: https://www.Docker.com/
+[PHP]: https://www.php.net/
+[Redis]: https://redislabs.com/
+[MariaDB]: https://mariadb.com/
+[Apache]: https://httpd.apache.org/
+
+  </div>
+
+</article>
 
       </div>
     </div>

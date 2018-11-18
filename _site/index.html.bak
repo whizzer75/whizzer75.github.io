@@ -40,11 +40,23 @@
           
         
           
+          <a class="page-link" href="/install/">Install</a>
+          
+        
+          
+          <a class="page-link" href="/tcp-8080/">TCP/8080</a>
+          
+        
+          
           <a class="page-link" href="/tcp-8080/">TCP/8080</a>
           
         
           
           <a class="page-link" href="/add-user/">Add User</a>
+          
+        
+          
+          <a class="page-link" href="/user/">Connect User</a>
           
         
           

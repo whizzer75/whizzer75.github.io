@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>How to install and connect to ownCloud</title>
+  <title>Connect User</title>
   <meta name="description" content="Install and configure ownCloud server. Expose public tcp port 8080.  Add a user account. Connect to Owncloud using a browser.
 ">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="localhost:4000/">
+  <link rel="canonical" href="localhost:4000/user/">
   <link rel="alternate" type="application/rss+xml" title="How to install and connect to ownCloud" href="localhost:4000/feed.xml">
 </head>
 
@@ -40,6 +40,14 @@
           
         
           
+          <a class="page-link" href="/install/">Install</a>
+          
+        
+          
+          <a class="page-link" href="/tcp-8080/">TCP/8080</a>
+          
+        
+          
           <a class="page-link" href="/tcp-8080/">TCP/8080</a>
           
         
@@ -49,6 +57,12 @@
         
           
           <a class="page-link" href="/user/">Connect User</a>
+          
+        
+          
+          <a class="page-link" href="/user/">Connect User</a>
+          
+        
           
         
           
@@ -67,43 +81,49 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <article class="post">
 
-  <h1 class="page-heading">Contents:</h1>
+  <header class="post-header">
+    <h1 class="post-title">Connect User</h1>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-          <a href="/install/">Install</a>
-      </li>
-    
-      <li>
-          <a href="/tcp-8080/">TCP/8080</a>
-      </li>
-    
-      <li>
-          <a href="/add-user/">Add User</a>
-      </li>
-    
-      <li>
-          <a href="/user/">Connect User</a>
-      </li>
-    
-      <li>
-          <a href="/feed.xml"></a>
-      </li>
-    
-      <li>
-          <a href="/"></a>
-      </li>
-    
-      <li>
-          <a href="/css/main.css"></a>
-      </li>
-    
-  </ul>
+  <div class="post-content">
+    ## Connect to [ownCloud] as a user
 
-</div>
+### Introduction
+
+This guide will cover connecting to your [ownCloud] service using a web 
+browser. Also, [ownCloud] makes available client software for Windows, 
+Mac, Android and iOS that you can learn more about 
+[here](https://owncloud.org/download/).
+
+### Connect with Browser
+
+Open your browser and type your public IP into the browser URL field.
+Enter the [ownCloud] credentials supplied by your [ownCloud] 
+administrator and hit enter.
+
+![Login page](/images/login_new.png)
+
+To create a new folder for organizing files or to upload a new file,
+click the plus symbol near the top of the file list dialogue.
+
+![Add a new file](/images/plus_file.png)
+
+To download a file, simply click the file name in the file list dialogue and
+use the filesystem pop-up window to choose where to save the file.
+
+[ownCloud]: https://owncloud.org/
+[Centos]: https://www.centos.org/
+[Docker]: https://www.Docker.com/
+[PHP]: https://www.php.net/
+[Redis]: https://redislabs.com/
+[MariaDB]: https://mariadb.com/
+[Apache]: https://httpd.apache.org/
+
+  </div>
+
+</article>
 
       </div>
     </div>
