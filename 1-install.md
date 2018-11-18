@@ -74,7 +74,7 @@ See [here][oc_mariadb] for more information about using MariaDB with ownCloud.
 Because we are using the Docker image provided by webhippie these
 customizations have already been completed for us.
 
-We will define two Docker volumes for database files and backups. Also,
+We will define two Docker volumes, one for database files and one for backups. Also,
 we will generate random passwords for the MariaDB root user and the MariaDB
 owncloud user.
 
