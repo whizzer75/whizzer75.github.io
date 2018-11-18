@@ -6,9 +6,9 @@ permalink: /install/
 
 ## Install and configure [ownCloud]
 
-This document is intended for adminstrators who want to quickly install
+This document is intended for administrators who want to quickly install
 and run [ownCloud] on a computer or server. [ownCloud] is a file storage
-software written in [PHP]. It is intended to be published through a webserver 
+software written in [PHP]. It is intended to be published through a web server 
 and uses a database for persistent storage. [ownCloud] performance can also
 benefit from caching web content in memory.
 
@@ -40,7 +40,7 @@ We will use predefined images from Docker Hub to avoid some initial
 configuration of services that is taken care of already by the [Docker]
 image creator. We will define environment variables with custom values,
 then using those values in our docker commands. This makes it easy to
-optionally store our customizations in a file that can be sourced again
+optionally store our custom configurations in a file that can be sourced again
 later. It also keeps our custom values separate from the [Docker]
 commands used to implement them.
 
