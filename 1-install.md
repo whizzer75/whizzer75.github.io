@@ -39,13 +39,13 @@ and configuration prerequisites.
 We will use predefined images from Docker Hub to avoid some initial
 configuration of services that is taken care of already by the [Docker]
 image creator. We will define environment variables with custom values,
-then using those values in our docker commands. This makes it easy to
+then use those variables in our docker commands. This makes it easy to
 optionally store our custom configurations in a file that can be sourced again
 later. It also keeps our custom values separate from the [Docker]
 commands used to implement them.
 
-Define the [ownCloud] administrative user. In this example, we use this
-name as the MariaDB database name, the MariaDB user with privileges to the
+Define the [ownCloud] administrative user. In this example, we use $OC_USER
+as the MariaDB database name, the MariaDB user with privileges to the
 database, and the initial administrative user name for [ownCloud].
 ```
 export OC_USER=owncloud
