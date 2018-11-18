@@ -96,10 +96,11 @@ You may substitute a more secure password storage method of your
 choice instead of using a text file, but you will want to record them
 in order to troubleshoot and maintain your installation.
 
-We will use an official ownCloud Docker image that also needs a docker volume for persistent data. 
-ownCloud can use external authentication mechanisms, but we use local authentication by setting
-the domain to "localhost". We name the admin user, generate a password, and choose an
-external TCP port for publishing ownCloud.
+We will use an official ownCloud Docker image that comes with Apache and PHP already configured
+for running ownCloud. It needs a docker volume like the others, but this one to store the
+files uploaded to ownCloud by users. ownCloud can use external authentication mechanisms,
+but we use local authentication by setting the domain to "localhost". We name the admin user,
+generate a password, and choose an external TCP port for publishing ownCloud.
 
 ownCloud Customization
 ```
