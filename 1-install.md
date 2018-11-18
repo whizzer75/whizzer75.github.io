@@ -77,13 +77,6 @@ We will define two Docker volumes for database files and backups. Also,
 we will generate random passwords for the MariaDB root user and the MariaDB
 owncloud user.
 
-Beware that running the password export commands multiple times will overwrite the
-previous variable value with a new randomly generated password. For this
-reason, we will store the generated passwords in a text file in a later step.
-You may substitute a more secure password storage method of your
-choice instead of using a text file, but you will want to record them
-in order to troubleshoot and maintain your installation.
-
 MariaDB Customization
 ```
 export MARIADB_IMG=webhippie/mariadb:latest
@@ -94,6 +87,13 @@ export MARIADB_USER=${OC_USER}
 export MARIADB_ROOT_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 export MARIADB_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 ```
+
+Beware that running the password export commands multiple times will overwrite the
+previous variable value with a new randomly generated password. For this
+reason, we will store the generated passwords in a text file in a later step.
+You may substitute a more secure password storage method of your
+choice instead of using a text file, but you will want to record them
+in order to troubleshoot and maintain your installation.
 
 We will use an official ownCloud Docker image that also needs a docker volume for persistent data. 
 ownCloud can use external authentication mechanisms, but we use local authentication by setting
