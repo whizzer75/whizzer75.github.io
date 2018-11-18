@@ -92,8 +92,8 @@ export MARIADB_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold 
 Beware that running the password export commands multiple times will overwrite the
 previous variable value with a new randomly generated password. For this
 reason, we will store the generated passwords in a text file in a later step.
-You may substitute a more secure password storage method of your
-choice instead of using a text file, but you will want to record them
+You may choose to substitute a more secure password storage method
+instead of using a text file, but you will want to record them
 in order to troubleshoot and maintain your installation.
 
 We will use an official ownCloud Docker image that comes with Apache and PHP already configured
