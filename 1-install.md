@@ -7,52 +7,52 @@ permalink: /install/
 ## Install and configure [ownCloud]
 
 This document is intended for administrators who want to quickly install
-and run [ownCloud] on a computer or server. [ownCloud] is a file storage
+and run ownCloud on a computer or server. ownCloud is a file storage
 software written in [PHP]. It is intended to be published through a web server 
-and uses a database for persistent storage. [ownCloud] performance can also
+and uses a database for persistent storage. ownCloud performance can also
 benefit from caching web content in memory.
 
-[ownCloud] can be be run with different combinations of software to achieve these
+ownCloud can be be run with different combinations of software to achieve these
 objectives, but this document will show how to implement using the [Apache]
 web server, [MariaDB] database, and [Redis] for caching web content in memory.
 
 [Centos] 7 was used during the creation of this guide but the [Docker] commands 
-should work on any OS as long as [Docker] version 17 or greater is installed. 
-Using [Docker] to install [ownCloud] and supporting services will allow us to 
+should work on any OS as long as Docker version 17 or greater is installed. 
+Using Docker to install ownCloud and supporting services will allow us to 
 quickly get things running without manually satisfying software installation 
 and configuration prerequisites.
 
 ### Prerequisites
 
-* A Computer running [Centos] 7 with a working internet connection
+* A Computer running Centos 7 with a working internet connection
 * BASH shell, and sudo or root access
-* [Docker] CE version 17 or greater - Using the command "yum install docker"
-  on [Centos] 7 installed [Docker] version 13. That is too old to support
-  some of the syntax we use in the following [Docker] commands. I used
+* Docker CE version 17 or greater - Using the command "yum install docker"
+  on Centos 7 installed Docker version 13. That is too old to support
+  some of the syntax we use in the following Docker commands. I used
   [this guide from Docker docs][docker_repo] to configure the official 
-  [Docker] repository for yum and install [Docker] version 17 with 
+  Docker repository for yum and install Docker version 17 with 
   "yum install docker-ce"
 
 [docker_repo]: https://docs.docker.com/install/linux/docker-ce/centos/#set-up-the-repository
 
 ### Customization
 We will use predefined images from Docker Hub to avoid some initial
-configuration of services that is taken care of already by the [Docker]
+configuration of services that is taken care of already by the Docker
 image creator. We will define environment variables with custom values,
 then use those variables in our docker commands. This makes it easy to
 optionally store our custom configurations in a file that can be sourced again
-later. It also keeps our custom values separate from the [Docker]
+later. It also keeps our custom values separate from the Docker
 commands used to implement them.
 
-Define the [ownCloud] administrative user. In this example, we use $OC_USER
+Define the ownCloud administrative user. In this example, we use $OC_USER
 as the MariaDB database name, the MariaDB user with privileges to the
-database, and the initial administrative user name for [ownCloud].
+database, and the initial administrative user name for ownCloud.
 ```
 export OC_USER=owncloud
 ```
 
-[Redis] improves performance for [ownCloud] by providing memory caching for web
-content. If you would like to read more about how [ownCloud] uses [Redis],
+Redis improves performance for ownCloud by providing memory caching for web
+content. If you would like to read more about how ownCloud uses Redis,
 you can find more information in the [ownCloud Administrator's Manual][oc_admin_redis].
 
 The docker image we are using from [webhippie] is mostly configured for us already.
@@ -60,20 +60,20 @@ We will need a docker volume for this container so we give it a name, and we are
 not scaling out Redis so only one database is needed.
 [oc_admin_redis]: https://doc.owncloud.org/server/10.0/admin_manual/configuration/server/caching_configuration.html#redis
 
-[Redis] Customization
+Redis Customization
 ```
 export REDIS_IMG=webhippie/redis:latest
 export REDIS_VOL=owncloud_redis
 export REDIS_DBS=1
 ```
 
-The manual installation instructions for configuring [MariaDB] for [ownCloud] 
+The manual installation instructions for configuring MariaDB for ownCloud 
 include using InnoDB tables and disabling or customizing binary logging. 
-See [here][oc_mariadb] for more information about using MariaDB with [ownCloud]
-Because we are using the [Docker] image provided by [webhippie] these
+See [here][oc_mariadb] for more information about using MariaDB with ownCloud
+Because we are using the Docker image provided by webhippie these
 customizations have already been completed for us.
 
-We will define two [Docker] volumes for database files and backups. Also,
+We will define two Docker volumes for database files and backups. Also,
 we will generate random passwords for the MariaDB root user and the owncloud 
 user.
 
@@ -84,7 +84,7 @@ Feel free to substitute a more secure password storage method of your
 choice instead of using a text file, but you will want to record them
 in order to troubleshoot and maintain your installation.
 
-[MariaDB] Customization
+MariaDB Customization
 ```
 export MARIADB_IMG=webhippie/mariadb:latest
 export MARIADB_DB_VOL=owncloud_mysql
@@ -95,12 +95,12 @@ export MARIADB_ROOT_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | 
 export MARIADB_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 ```
 
-We will use an official [ownCloud] Docker image that also needs a docker volume for persistent data. 
-[ownCloud] can use external authentication mechanisms, but we use local authentication by setting
-the domain to "localhost". We name the admin user, generate a password, and choose ant
-external TCP port for publishing [ownCloud].
+We will use an official ownCloud Docker image that also needs a docker volume for persistent data. 
+ownCloud can use external authentication mechanisms, but we use local authentication by setting
+the domain to "localhost". We name the admin user, generate a password, and choose an
+external TCP port for publishing ownCloud.
 
-[ownCloud] Customization
+ownCloud Customization
 ```
 export OWNCLOUD_IMG=owncloud/server
 export OWNCLOUD_VOL=owncloud_files
@@ -129,14 +129,14 @@ env | grep PASSWORD | tee password_file.txt
 chmod 400 password_file.txt
 ```
 
-### Steps to install [ownCloud] using [Docker]
+### Steps to install ownCloud using Docker
 With all customizations finalized and stored in environment
-variables, we can quickly deploy the entire [ownCloud] stack with 
-a few boilerplate [Docker] commands. Docker commands generally
+variables, we can quickly deploy the entire ownCloud stack with 
+a few boilerplate Docker commands. Docker commands generally
 need to be run with root privileges. We will use sudo here
 to avoid logging in as root.
 
-* Install [Redis] server
+* Install Redis server
   ```
   sudo docker volume create ${REDIS_VOL}
   sudo docker run -d \
@@ -145,7 +145,7 @@ to avoid logging in as root.
     --volume ${REDIS_VOL}:/var/lib/redis \
   ${REDIS_IMG}
   ```
-* Install [MariaDB] server
+* Install MariaDB server
   ```
   sudo docker volume create ${MARIADB_DB_VOL}
   sudo docker volume create ${MARIADB_BAK_VOL}
@@ -159,7 +159,7 @@ to avoid logging in as root.
     --volume ${MARIADB_BAK_VOL}:/var/lib/backup \
     ${MARIADB_IMG}
   ```
-* Install [ownCloud] server
+* Install ownCloud server
   ```
   sudo docker volume create ${OWNCLOUD_VOL}
   sudo docker run -d \
@@ -183,7 +183,7 @@ to avoid logging in as root.
 
 ### Connect to your new installation
 
-Your [ownCloud] site should now be available by using a browser to connect to the
+Your ownCloud site should now be available by using a browser to connect to the
 host's public IP. You can login with $ADMIN_USERNAME and $ADMIN_PASSWORD
 as they were assigned in the environment variables.
 

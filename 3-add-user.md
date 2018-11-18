@@ -4,7 +4,7 @@ title: Add User
 permalink: /add-user/
 ---
 
-## Add a user to [ownCloud]
+## Add a user to ownCloud
 
 ### Introduction
 

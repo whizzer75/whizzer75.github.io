@@ -8,15 +8,15 @@ permalink: /user/
 
 ### Introduction
 
-This guide will cover connecting to your [ownCloud] service using a web 
-browser. Also, [ownCloud] makes available client software for Windows, 
+This guide will cover connecting to your ownCloud service using a web 
+browser. Also, ownCloud makes available client software for Windows, 
 Mac, Android and iOS that you can learn more about 
 [here](https://owncloud.org/download/).
 
 ### Connect with Browser
 
 Open your browser and type your public IP into the browser URL field.
-Enter the [ownCloud] credentials supplied by your [ownCloud] 
+Enter the ownCloud credentials supplied by your ownCloud 
 administrator and hit enter.
 
 ![Login page](/images/login_new.png)
